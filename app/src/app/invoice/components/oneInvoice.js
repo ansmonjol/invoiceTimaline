@@ -2,6 +2,8 @@ import React from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 
+import Breadcrumb from 'shared/ui/breadcrumb'
+
 import * as actions from './../actions'
 
 class OneInvoice extends React.Component {
@@ -9,6 +11,7 @@ class OneInvoice extends React.Component {
     oneInvoice: React.PropTypes.func,
     invoiceStore: React.PropTypes.object,
     location: React.PropTypes.object,
+    params: React.PropTypes.object,
   }
 
   constructor(props, context) {
@@ -21,7 +24,7 @@ class OneInvoice extends React.Component {
   }
 
   _fetchData = () => {
-    const invoiceId = this.props.location.query.id
+    const invoiceId = this.props.params.id
 
     // Get invoice
     if (!!invoiceId) this.props.oneInvoice(invoiceId)
@@ -32,11 +35,17 @@ class OneInvoice extends React.Component {
 
     return (
       <div>
-        <h1>Edit List {this.props.location.query.id}</h1>
+        <h1>Edit Invoice #{invoiceStore.oneInvoice.ref}</h1>
         {!!invoiceStore.loading && <p className="absolute-loading">Loading...</p>}
 
 
         <div className="col-lg-10 col-lg-offset-1 nopd mrg-top30">
+          <Breadcrumb
+            data={[
+              { ref: 'invoices', displayName: 'Invoices' },
+              { active: true, displayName: `Invoice #${invoiceStore.oneInvoice.ref}` },
+            ]}
+          />
           content
         </div>
       </div>
