@@ -16,6 +16,7 @@ module.exports = function Invoice(sequelize, DataTypes) {
     currency: { type: DataTypes.STRING, defaultValue: 'EUR' },
 
     // If paid
+    paymentDate: { type: DataTypes.DATE },
     paymentDetails: { type: DataTypes.STRING },
 
     issuedAt: { type: DataTypes.DATE, defaultValue: new Date() },
