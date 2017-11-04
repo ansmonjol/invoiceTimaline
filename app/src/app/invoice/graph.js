@@ -5,9 +5,9 @@ import { Query } from 'shared/graph/query'
  * List account invoices
  * @return {Array} Array of invoices
  */
-export function listInvoiceQL() {
+export function listInvoiceQL(query) {
   // Build query
-  const listInvoice = new Query('listInvoice')
+  const listInvoice = new Query('listInvoice', { ...query })
 
   // Call graph
   return graph(`{

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Table } from 'react-bootstrap'
 import { accounting } from 'accounting'
 
+import Tab from 'shared/ui/tab'
 import {
   ACCOUNTING_FORMAT_MONEY,
   DATE_FORMAT
@@ -15,21 +16,73 @@ class Invoice extends React.Component {
   static propTypes = {
     listInvoice: React.PropTypes.func,
     invoiceStore: React.PropTypes.object,
+    location: React.PropTypes.object,
   }
 
-  // constructor(props) {
-  //   super(props)
-  //   this.state = {
-
-  //   }
-  // }
+  constructor(props, context) {
+    super(props, context)
+    this.state = {
+      tabActived: 'all',
+      tabs: [
+        { text: 'All', key: 'all', onClick: () => this.onTab('all') },
+        { text: 'Due', key: 'due', onClick: () => this.onTab('due') },
+        { text: 'Paid', key: 'paid', onClick: () => this.onTab('paid') },
+        { text: 'Overdue', key: 'overdue', onClick: () => this.onTab('overdue') },
+      ],
+    }
+  }
 
   componentDidMount() {
     this._fetchData()
   }
 
   _fetchData = (query = {}) => {
-    this.props.listInvoice(query)
+    const status = this._getQueryType(this.props.location.query.type)
+    const args = { ...query, status }
+    // Get invoice type
+    this.props.listInvoice(args)
+  }
+
+  setQuery = (...args) => {
+    const { router } = this.context
+    const { pathname, query } = this.props.location
+    args.forEach((arg) => {
+      query[arg[0]] = arg[1]
+    })
+    let search = '?'
+    // eslint-disable-next-line no-restricted-syntax
+    for (const propertyName in query) {
+      if (query[propertyName] !== null) {
+        search += `&${propertyName}=${query[propertyName]}`
+      }
+    }
+    router.push({
+      pathname,
+      search
+    })
+  }
+
+  _getQueryType(tab) {
+    switch (tab) {
+      case 'all':
+        return null
+      case 'due':
+        return 100
+      case 'paid':
+        return 101
+      case 'overdue':
+        return 102
+      default:
+        return null
+    }
+  }
+
+
+  onTab(tab) {
+    const status = this._getQueryType(tab)
+    this.setQuery(['type', tab]);
+    this._fetchData({ status });
+    this.setState({ tabActived: tab });
   }
 
   _renderFormatedStatus = (status) => {
@@ -66,14 +119,16 @@ class Invoice extends React.Component {
 
   render () {
     const { invoiceStore } = this.props;
-
-    if (!!invoiceStore.loading) return <p>Loading...</p>
+    const { tabs, tabActived } = this.state;
 
     return (
       <div>
         <h1>Invoices List</h1>
+        {!!invoiceStore.loading && <p className="absolute-loading">Loading...</p>}
 
-        <div className="col-lg-8 col-lg-offset-2 nopd mrg-top30">
+        <Tab items={tabs} active={tabActived} />
+
+        <div className="col-lg-10 col-lg-offset-1 nopd mrg-top30">
           <Table striped bordered condensed hover>
             <thead>
               <tr>
@@ -93,6 +148,10 @@ class Invoice extends React.Component {
       </div>
     )
   }
+}
+
+Invoice.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 

@@ -3,14 +3,14 @@ import {
   listInvoiceQL
 } from './graph'
 
-export function listInvoice() {
+export function listInvoice(query = {}) {
   return async (dispatch) => {
     try {
       // Display loader when waiting for response
       dispatch({ type: ACTION_TYPES.INVOICE_LIST_INVOICE });
 
       // List invoices
-      const res = await listInvoiceQL();
+      const res = await listInvoiceQL(query);
 
       // If error
       if (!res) return dispatch({ type: ACTION_TYPES.INVOICE_LIST_INVOICE_FAILURE });
