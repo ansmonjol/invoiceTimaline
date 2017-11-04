@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "description": "Invoice Timeline allow users to check all the invoices that their company has created and, for each invoice, can have access to a detail page with more information and actions to perform.",
+  "main": "app.js",
+  "scripts": {
+    "task:seed": "node --max_old_space_size=2048 --harmony src/bin/console task:seed",
+    "start": "nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ansmonjol/invoiceTimeline.git"
+  },
+  "homepage": "github.com/youngapp/Pilotin",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-graphql": "^0.6.11",
+    "graphql": "^0.11.7",
+    "http": "0.0.0",
+    "morgan": "^1.9.0",
+    "pg": "^7.3.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.22.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
