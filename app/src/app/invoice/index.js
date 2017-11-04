@@ -39,7 +39,7 @@ class Invoice extends React.Component {
   _fetchData = () => {
     // Get url datas
     const status = this._getQueryType(this.props.location.query.type)
-    const search = this.props.location.query.search
+    const search = this.props.location.query.search || ''
 
     // Build query
     const query = {
