@@ -1,3 +1,4 @@
+import { Storage } from 'shared/storage'
 import { API_URL, DEBUG } from 'src/parameters'
 import { Logout } from 'shared/util/logout'
 import 'whatwg-fetch';
@@ -11,9 +12,13 @@ import 'whatwg-fetch';
 export function graph(query) {
   return new Promise((resolve, reject) => {
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
-    if (localStorage.getItem('accountId') !== null) {
-      const accountId = localStorage.getItem('accountId');
-      headers.Authorization = `account_id = ${accountId}`;
+
+    // Get storage infos
+    const accountId = Storage.get('accountId')
+    const userId = Storage.get('userId')
+
+    if (!!accountId && !!userId) {
+      headers.Authorization = `account_id = ${accountId}, user_id = ${userId}`;
     }
 
     if (DEBUG === true) console.log(query);
