@@ -20,6 +20,7 @@ const getQueries = function getQueries(params) {
   } else {
     queries.where = JSON.parse(JSON.stringify(params));
   }
+
   return queries;
 };
 

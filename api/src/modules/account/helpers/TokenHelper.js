@@ -72,19 +72,20 @@ class TokenHelper {
    */
   static decodeAuthorization(authorization) {
     const authorizations = authorization.split(',');
-    let oAuthToken = null;
-    let oAuthOwnerKey = null;
+    let headerAccountId = null;
+    let headerUserId = null;
     if (authorizations.length === 2) {
       for (let i = 0; i < authorizations.length; i++) {
         const key = authorizations[i].split('=');
-        if (key[0].trim() === 'oauth_token') {
-          oAuthToken = key[1].trim();
-        } else if (key[0].trim() === 'oauth_owner_key') {
-          oAuthOwnerKey = key[1].trim();
+        if (key[0].trim() === 'account_id') {
+          headerAccountId = key[1].trim();
+        }
+        if (key[0].trim() === 'user_id') {
+          headerUserId = key[1].trim();
         }
       }
     }
-    return { oAuthToken, oAuthOwnerKey };
+    return { headerAccountId, headerUserId };
   }
 }
 

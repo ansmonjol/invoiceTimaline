@@ -2,7 +2,6 @@ const graphql = require('graphql');
 const graph = require('./graph');
 const subdomain = require('./helpers/subdomain');
 const models = require('./models');
-const Raven = require('raven');
 const localeConfig = require('./../../config/locale');
 const TokenHelper = require('./../account/helpers/TokenHelper');
 
@@ -13,46 +12,46 @@ class Controller {
   static async graph(ctx) {
     try {
       const query = ctx.request.body.query;
+
       // Load account id
       let accountId = null;
       let account = null;
+      let userId = null;
       let user = null;
-      let language = 'fr';
-      const accountURL = process.env.NODE_ENV !== 'testing' ? subdomain(ctx.headers.host) : 'account0';
-      if (accountURL) {
+
+      // Find Account id in authorization, for mobile and test
+      if (ctx.request.headers.authorization) {
+        // Get accout & user ids from headers
+        const { headerAccountId, headerUserId } = TokenHelper.decodeAuthorization(ctx.request.headers.authorization);
+        if (!!headerAccountId) accountId = headerAccountId;
+        if (!!headerUserId) userId = headerUserId;
+      }
+
+      if (accountId) {
         try {
-          account = await models.Account.find({ where: { accountId: accountURL } });
+          account = await models.Account.find({ where: { id: accountId } });
           // Get account id by url
           if (account && account.id) {
             accountId = account.id;
           }
         } catch (e) {
-          if (localeConfig.ENVIRONNEMENT_APPLICATION === 'production') Raven.captureException(e, { tags: { query } });
           accountId = null;
         }
       }
 
-      // Add language in query
-      if (accountId !== null) {
-        if (!!ctx.request.headers.authorization) {
-          let token = null;
-          try {
-            token = await TokenHelper.getToken(ctx.request, accountId);
-          } catch (e) { token = null; }
-          if (!!token && !!token.user && !!token.user.language) {
-            language = token.user.language;
-            user = token.user;
-          } else if (!!token && !!token.account && !!token.account.language) {
-            language = token.account.language;
+      if (user) {
+        try {
+          user = await models.User.find({ where: { id: userId } });
+          // Get user id by url
+          if (user && user.id) {
+            userId = user.id;
           }
-        } else {
-          language = account.language;
+        } catch (e) {
+          userId = null;
         }
-      } else {
-        language = 'fr';
       }
 
-      const data = await graphql.graphql(graph, query, null, { ctx, accountId, account, user, language, query });
+      const data = await graphql.graphql(graph, query, null, { ctx, accountId, account, userId, user, query });
       if (data.errors) {
         ctx.status = 500;
         for (let i = 0; i < data.errors.length; i++) {
@@ -72,7 +71,6 @@ class Controller {
         ctx.body = { meta: { status: 'error', errors: data.errors } };
 
         data.errors.map((e) => {
-          if (localeConfig.ENVIRONNEMENT_APPLICATION === 'production') Raven.captureException(e, { tags: { accountId, account, query } });
           return console.log(e);
         });
       } else {
@@ -81,7 +79,6 @@ class Controller {
       }
     } catch (e) {
       console.log(e);
-      if (localeConfig.ENVIRONNEMENT_APPLICATION === 'production') Raven.captureException(e);
       ctx.status = 500;
       ctx.body = { meta: { status: 'error', error: e.message } };
     }

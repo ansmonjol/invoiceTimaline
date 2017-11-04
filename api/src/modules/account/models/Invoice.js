@@ -32,7 +32,7 @@ module.exports = function Invoice(sequelize, DataTypes) {
     classMethods: {
       associate: function associate(models) {
         // set default order
-        this.order = [['name', 'ASC']];
+        this.order = [['ref', 'ASC']];
 
         this.include = [
           { model: models.Account, as: 'account' },
