@@ -61,9 +61,9 @@ module.exports = (
     <Route name="login" path="login" component={Auth} />
 
     // App
-    <Route name="login" path="/invoices" component={Invoice} />
-    <Route name="login" path="/payments" component={Payment} />
-    <Route name="login" path="/customers" component={Customer} />
+    <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/invoices" component={Invoice} />
+    <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/payments" component={Payment} />
+    <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/customers" component={Customer} />
 
     <Route path="*" component={NotFound} />
   </Route>
