@@ -126,9 +126,9 @@ class Invoice extends React.Component {
         <h1>Invoices List</h1>
         {!!invoiceStore.loading && <p className="absolute-loading">Loading...</p>}
 
-        <Tab items={tabs} active={tabActived} />
 
         <div className="col-lg-10 col-lg-offset-1 nopd mrg-top30">
+          <Tab items={tabs} active={tabActived} />
           <Table striped bordered condensed hover>
             <thead>
               <tr>
