@@ -11,7 +11,7 @@ export function login({ email, password }) {
 
       // call to data base
       const res = await loginQL({ email, password });
-      console.log('res', res);
+
       // If no pages
       if (!res || !res.login.account || !res.login.user) return dispatch({ type: ACTION_TYPES.AUTH_LOGIN_FAILURE });
 
