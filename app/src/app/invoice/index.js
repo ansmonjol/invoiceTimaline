@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { Table } from 'react-bootstrap'
 import { accounting } from 'accounting'
@@ -113,14 +114,14 @@ class Invoice extends React.Component {
     this._fetchData();
   }
 
-  _renderFormatedStatus = (status) => {
-    switch (status) {
+  _renderFormatedStatus = (invoice) => {
+    switch (invoice.status) {
       case 99:
         return <span className="label label-default">Archived</span>;
       case 100:
         return <span className="label label-info">Due</span>;
       case 101:
-        return <span className="label label-success">Paid</span>;
+        return <span><span className="label label-success">Paid</span> <span>({moment(invoice.paymentDate).format('YYYY/DD/MM hh:mm:ss')})</span></span>;
       case 102:
         return <span className="label label-warning">Overdue</span>
       case 103:
@@ -135,17 +136,17 @@ class Invoice extends React.Component {
 
     return listInvoice.map((invoice, index) => (
       <tr key={index}>
-        <td>{invoice.ref}</td>
+        <td className="pointer" onClick={() => browserHistory.push(`/invoices/${invoice.id}`)}><a>Invoice #{invoice.ref}</a></td>
         <td>{accounting.formatMoney(invoice.amount, ACCOUNTING_FORMAT_MONEY)}</td>
-        <td>{this._renderFormatedStatus(invoice.status)}</td>
-        <td>{moment(invoice.dueDate).format(DATE_FORMAT)}</td>
+        <td>{this._renderFormatedStatus(invoice)}</td>
+        <td>{invoice.status !== 101 ? moment(invoice.dueDate).format(DATE_FORMAT) : '-'}</td>
         <td>{invoice.customer.name}</td>
         <td>{moment(invoice.createdAt).format(DATE_FORMAT)}</td>
       </tr>
     ))
   }
 
-  render () {
+  render() {
     const { invoiceStore, location } = this.props;
     const { tabs, tabActived } = this.state;
 
@@ -160,7 +161,7 @@ class Invoice extends React.Component {
           <Table striped bordered condensed hover>
             <thead>
               <tr>
-                <th>Reference</th>
+                <th >Reference</th>
                 <th>Amount</th>
                 <th>Status</th>
                 <th>Due</th>
