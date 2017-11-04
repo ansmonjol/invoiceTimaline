@@ -3,6 +3,7 @@ const models = require('./../../graph/models');
 const seedAccount = require('./../helpers/seed/account');
 const seedUser = require('./../helpers/seed/user');
 const seedCustomer = require('./../helpers/seed/customer');
+const seedInvoice = require('./../helpers/seed/invoice');
 const ProgressBar = require('progress');
 const colors = require('colors');
 
@@ -17,13 +18,22 @@ module.exports = [(program) => {
         complete: ':',
         incomplete: ' ',
         width: 50,
-        total: 3
+        total: 6,
       });
       bar.tick({ token1: 'Sync Database' });
       await models.sequelize.sync({ force: true, logging: false });
 
       bar.tick({ token1: 'accounts....' });
-      const accounts = await seedAccount(models);
+      const accounts = JSON.parse(JSON.stringify(await seedAccount(models)));
+
+      bar.tick({ token1: 'users....' });
+      await seedUser(models, accounts);
+
+      bar.tick({ token1: 'customers....' });
+      await seedCustomer(models, accounts);
+
+      bar.tick({ token1: 'customers....' });
+      await seedInvoice(models, accounts);
 
       bar.tick({ token1: 'finish' });
       process.exit(0);

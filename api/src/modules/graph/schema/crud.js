@@ -25,11 +25,9 @@ const getQueries = function getQueries(params) {
 
 const pushAccountIdQueries = function pushAccountIdQueries(row, modelName, { accountId }) {
   if (
-      (modelName === 'Time')
-      || (modelName === 'Project')
-      || (modelName === 'Customer')
-      || (modelName === 'Group')
-      || (modelName === 'Organization')
+      (modelName === 'Customer') ||
+      (modelName === 'Invoice') ||
+      (modelName === 'User')
   ) {
     if (!accountId) throw new Error('__denied__');
     row.accountId = accountId;
