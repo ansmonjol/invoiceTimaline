@@ -414,7 +414,9 @@
     // Define line max-length
     "max-len": ["error", 200],
 
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+
+    "no-extra-boolean-cast": "off"
   },
   "settings": {
   "import/resolver": {
