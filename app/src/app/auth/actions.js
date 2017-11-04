@@ -15,11 +15,11 @@ export function login({ email, password }) {
       // If no pages
       if (!res || !res.login.account || !res.login.user) return dispatch({ type: ACTION_TYPES.AUTH_LOGIN_FAILURE });
 
-      // Set Storage with credential infos
+      // Set Storage with credential infos (should be done in a redux observable)
       Storage.set('accountId', res.login.account.id);
       Storage.set('userId', res.login.user.id);
 
-      // Navigate
+      // Navigate (should be done in a redux observable)
       browserHistory.push('/');
 
       // Dispacth results

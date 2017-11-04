@@ -1,12 +1,29 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 
+import { Storage } from 'shared/storage'
+
 import App from './app'
 import {
   Home,
   Auth,
   NotFound,
 } from './app/components'
+
+
+/**
+ * Check if user is logged
+ * @param  {[type]} nextState [description]
+ * @param  {[type]} replace   [description]
+ * @return {[type]}           [description]
+ */
+function requireAuth(nextState, replace) {
+  if (!Storage.get('accountId') && !Storage.get('userId')) {
+    replace({ pathname: '/login', state: { nextPathname: nextState.location.pathname } });
+    return true;
+  }
+  return false;
+}
 
 /**
  * Serail compose for onEnter route functions
@@ -35,7 +52,7 @@ function composeEnterHooksSeries(...hooks) {
 
 module.exports = (
   <Route onChange={() => window.scrollTo(0, 0)} name="home" path="/" component={App}>
-    <IndexRoute onEnter={composeEnterHooksSeries()} component={Home} />
+    <IndexRoute onEnter={composeEnterHooksSeries(requireAuth)} component={Home} />
 
     // All
     <Route name="login" path="login" component={Auth} />
