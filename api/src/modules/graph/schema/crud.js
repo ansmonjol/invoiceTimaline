@@ -136,6 +136,15 @@ Object.keys(models).forEach((modelName) => {
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
         // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
+
+        // Manage custom incude
+        if (queries.include && Model.getInclude) {
+          queries.include = Model[include];
+        } else {
+          queries.include = Model.include || [];
+        }
+
+
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const record = await Model.find(queries);
         emitter.emit(`one${modelName}`, { queries, record, logging: console.log, language });

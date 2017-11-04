@@ -4,7 +4,9 @@ import * as ACTION_TYPE from './constants'
 
 export const initialState = {
   listInvoice: [],
-  oneInvoice: {},
+  oneInvoice: {
+    customer: {}
+  },
   pages: 0,
   countInvoices: 0,
 }
