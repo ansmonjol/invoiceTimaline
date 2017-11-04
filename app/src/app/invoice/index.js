@@ -174,11 +174,12 @@ class Invoice extends React.Component {
               {this._renderRows()}
             </tbody>
           </Table>
+          <div>{invoiceStore.countInvoice} invoice{invoiceStore.countInvoice > 1 && 's'}</div>
 
-          {invoiceStore.countInvoice > 1 &&
+          {invoiceStore.pages > 1 &&
             <div className="mrg-top30">
               <Pagination
-                total={invoiceStore.countInvoice}
+                total={invoiceStore.pages}
                 _current={Number(location.query.page || 1)}
                 onClick={this._handlePagination}
               />

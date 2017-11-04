@@ -5,7 +5,8 @@ import * as ACTION_TYPE from './constants'
 export const initialState = {
   listInvoice: [],
   oneInvoice: {},
-  countInvoice: 0,
+  pages: 0,
+  countInvoices: 0,
 }
 
 export default function invoiceStore(state = initialState, action) {
@@ -22,7 +23,8 @@ export default function invoiceStore(state = initialState, action) {
     case ACTION_TYPE.INVOICE_LIST_INVOICE_SUCCESS:
       newState.loading = false;
       newState.listInvoice = action.payload.listInvoice;
-      newState.countInvoice = Math.ceil(action.payload.countInvoice / PAGINATION_ITEMS);
+      newState.pages = Math.ceil(action.payload.countInvoice / PAGINATION_ITEMS);
+      newState.countInvoice = action.payload.countInvoice;
       break;
 
 
