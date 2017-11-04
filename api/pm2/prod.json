@@ -1,0 +1,13 @@
+{
+  "script"    : "/var/www/billypay_production/api/src/bin/www.js",
+  "name"      : "prod",
+  "force"     : true,
+  "next_gen_js": true,
+  "max_memory_restart": "300M",
+  "node_args" : [
+  	"--max_old_space_size=2048",
+  	"--harmony",
+        "--harmony-async-await"
+  ],
+  "instances" : -1
+}

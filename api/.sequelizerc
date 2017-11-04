@@ -1,0 +1,7 @@
+var path = require('path')
+
+module.exports = {
+  'config': path.resolve('migrate', 'config', 'config.json'),
+  'models-path': path.resolve('migrate', 'models'),
+  'migrations-path': path.resolve('migrate', 'migrations'),
+}

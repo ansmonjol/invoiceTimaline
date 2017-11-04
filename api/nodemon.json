@@ -1,0 +1,7 @@
+{
+    "ignore": ["test/*"],
+    "ext": "js json dot coffee ejs hbs",
+    "execMap": {
+        "js": "node --max_old_space_size=2048 --harmony"
+    }
+}

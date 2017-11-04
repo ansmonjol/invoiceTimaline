@@ -1,0 +1,14 @@
+{
+  "source": "./src",
+  "destination": "./docs",
+  "title": "Billy API",
+  "index": "./../README.md",
+  "manual": {
+    "installation": ["./../README.md"]
+  },
+  "styles": ["./esdoc/style.css"],
+  "plugins": [
+    { "name": "./esdoc/plugin.js" },
+    { "name": "esdoc-es7-plugin" }
+  ]
+}
