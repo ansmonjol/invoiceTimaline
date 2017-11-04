@@ -188,6 +188,16 @@ Object.keys(models).forEach((modelName) => {
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
         // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
+
+        // Check for custom where query
+        if (queries.customWhere && queries.customWhere[1] !== null) {
+          if (queries.where) {
+            queries.where = await Model[queries.customWhere[0]](models, queries.where, queries.customWhere[1]);
+          } else {
+            queries.where = await Model[queries.customWhere[0]](models, {}, queries.customWhere[1]);
+          }
+        }
+
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const value = await Model.count(queries);
         emitter.emit(`count${modelName}`, { queries, value, language });

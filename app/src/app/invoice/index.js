@@ -5,9 +5,11 @@ import { Table } from 'react-bootstrap'
 import { accounting } from 'accounting'
 
 import Tab from 'shared/ui/tab'
+import Pagination from 'shared/ui/pagination'
 import {
   ACCOUNTING_FORMAT_MONEY,
-  DATE_FORMAT
+  PAGINATION_ITEMS,
+  DATE_FORMAT,
 } from 'src/parameters'
 
 import * as actions from './actions'
@@ -37,14 +39,18 @@ class Invoice extends React.Component {
   }
 
   _fetchData = () => {
+    const { location } = this.props;
+
     // Get url datas
-    const status = this._getQueryType(this.props.location.query.type)
-    const search = this.props.location.query.search || ''
+    const status = this._getQueryType(location.query.type)
+    const search = location.query.search || ''
+    const offset = PAGINATION_ITEMS * (location.query.page - 1) || 0;
 
     // Build query
     const query = {
       status,
       _meta: {
+        offset,
         customWhere: [
           'searchLike',
           `${search}`,
@@ -97,6 +103,11 @@ class Invoice extends React.Component {
     this.setState({ tabActived: tab });
   }
 
+  _handlePagination = (page) => {
+    this.setQuery(['page', page]);
+    this._fetchData();
+  }
+
   handleSearch = (e) => {
     this.setQuery(['search', e.target.value]);
     this._fetchData();
@@ -135,7 +146,7 @@ class Invoice extends React.Component {
   }
 
   render () {
-    const { invoiceStore } = this.props;
+    const { invoiceStore, location } = this.props;
     const { tabs, tabActived } = this.state;
 
     return (
@@ -145,7 +156,7 @@ class Invoice extends React.Component {
 
 
         <div className="col-lg-10 col-lg-offset-1 nopd mrg-top30">
-          <Tab items={tabs} active={tabActived} onSearch={this.handleSearch}/>
+          <Tab items={tabs} active={tabActived} onSearch={this.handleSearch} />
           <Table striped bordered condensed hover>
             <thead>
               <tr>
@@ -161,6 +172,16 @@ class Invoice extends React.Component {
               {this._renderRows()}
             </tbody>
           </Table>
+
+          {invoiceStore.countInvoice > 1 &&
+            <div className="mrg-top30">
+              <Pagination
+                total={invoiceStore.countInvoice}
+                _current={Number(location.query.page || 1)}
+                onClick={this._handlePagination}
+              />
+            </div>
+          }
         </div>
       </div>
     )

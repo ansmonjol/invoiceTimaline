@@ -1,7 +1,10 @@
+import { PAGINATION_ITEMS } from 'src/parameters'
+
 import * as ACTION_TYPE from './constants'
 
 export const initialState = {
-  listInvoice: []
+  listInvoice: [],
+  countInvoice: 0,
 }
 
 export default function invoiceStore(state = initialState, action) {
@@ -18,6 +21,7 @@ export default function invoiceStore(state = initialState, action) {
     case ACTION_TYPE.INVOICE_LIST_INVOICE_SUCCESS:
       newState.loading = false;
       newState.listInvoice = action.payload.listInvoice;
+      newState.countInvoice = Math.ceil(action.payload.countInvoice / PAGINATION_ITEMS);
       break;
 
     default:

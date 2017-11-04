@@ -8,9 +8,11 @@ import { Query } from 'shared/graph/query'
 export function listInvoiceQL(query) {
   // Build query
   const listInvoice = new Query('listInvoice', { ...query })
+  const countInvoice = new Query('countInvoice', { ...query })
 
   // Call graph
   return graph(`{
     ${listInvoice.toString()}
+    ${countInvoice.toString()}
   }`);
 }
