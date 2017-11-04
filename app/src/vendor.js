@@ -4,6 +4,8 @@ import '!style!css!less!react-select/dist/react-select.css'
 import '!style!css!less!react-datepicker/dist/react-datepicker.css'
 
 import './assets/less/fonts.less'
+import './assets/less/rules.less'
+import './assets/less/nav.less'
 import './assets/less/theme.less'
 
 

@@ -8,6 +8,9 @@ import {
   Home,
   Auth,
   NotFound,
+  Invoice,
+  Payment,
+  Customer,
 } from './app/components'
 
 
@@ -54,8 +57,13 @@ module.exports = (
   <Route onChange={() => window.scrollTo(0, 0)} name="home" path="/" component={App}>
     <IndexRoute onEnter={composeEnterHooksSeries(requireAuth)} component={Home} />
 
-    // All
+    // Auth
     <Route name="login" path="login" component={Auth} />
+
+    // App
+    <Route name="login" path="/invoices" component={Invoice} />
+    <Route name="login" path="/payments" component={Payment} />
+    <Route name="login" path="/customers" component={Customer} />
 
     <Route path="*" component={NotFound} />
   </Route>

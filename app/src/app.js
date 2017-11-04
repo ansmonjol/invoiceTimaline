@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { browserHistory } from 'react-router'
 import {
   Navbar,
   Nav,
@@ -22,26 +23,29 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
-        <div>
-          <Navbar>
-            <Navbar.Header>
-              <Navbar.Brand>
-                <a href="#">React-Bootstrap</a>
-              </Navbar.Brand>
-            </Navbar.Header>
-            <Nav>
-              <NavItem eventKey={1} href="#">Link</NavItem>
-              <NavItem eventKey={2} href="#">Link</NavItem>
-              <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1}>Action</MenuItem>
-                <MenuItem eventKey={3.2}>Another action</MenuItem>
-                <MenuItem eventKey={3.3}>Something else here</MenuItem>
-                <MenuItem divider />
-                <MenuItem eventKey={3.4}>Separated link</MenuItem>
-              </NavDropdown>
-            </Nav>
-          </Navbar>
-        </div>
+        <Navbar>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a onClick={() => browserHistory.push('/')}>Invoice Timeline</a>
+            </Navbar.Brand>
+          </Navbar.Header>
+          <Nav>
+            <NavItem eventKey={1} onClick={() => browserHistory.push('.')}>Home</NavItem>
+            <NavItem eventKey={2} onClick={() => browserHistory.push('/invoices')}>Invoices</NavItem>
+            <NavItem eventKey={2} onClick={() => browserHistory.push('/payments')}>Payments</NavItem>
+            <NavItem eventKey={2} onClick={() => browserHistory.push('/customers')}>Customers</NavItem>
+          </Nav>
+          <Nav className="floatRight">
+            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+              <MenuItem eventKey={3.1}>Action</MenuItem>
+              <MenuItem eventKey={3.2}>Another action</MenuItem>
+              <MenuItem eventKey={3.3}>Something else here</MenuItem>
+              <MenuItem divider />
+              <MenuItem eventKey={3.4}>Separated link</MenuItem>
+            </NavDropdown>
+          </Nav>
+        </Navbar>
+
         {this.props.children}
       </div>
     )
