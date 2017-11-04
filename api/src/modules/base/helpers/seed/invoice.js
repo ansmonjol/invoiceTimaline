@@ -2,13 +2,11 @@ const faker = require('faker/locale/fr');
 const models = require('./../../../graph/models');
 
 module.exports = async function customerSeed(models, accounts) {
-  console.log('accounts', accounts);
   const values = [];
   for (let a = 0; a < accounts.length; a++) {
     const account = accounts[a];
 
     const customers = JSON.parse(JSON.stringify(await models.Customer.findAll({ where: { accountId: account.id } })))
-    console.log('customers', customers);
     for (let c = 0; c < customers.length; c++) {
       const customer = customers[c];
 
@@ -29,6 +27,5 @@ module.exports = async function customerSeed(models, accounts) {
     }
   }
 
-  console.log('values', values);
   return await models.Invoice.bulkCreate(values);
 };

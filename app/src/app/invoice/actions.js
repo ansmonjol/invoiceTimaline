@@ -9,10 +9,10 @@ export function listInvoice() {
       // Display loader when waiting for response
       dispatch({ type: ACTION_TYPES.INVOICE_LIST_INVOICE });
 
-      // call to data base
+      // List invoices
       const res = await listInvoiceQL();
-      console.log('res', res);
-      // If no pages
+
+      // If error
       if (!res) return dispatch({ type: ACTION_TYPES.INVOICE_LIST_INVOICE_FAILURE });
 
       // Dispacth results
