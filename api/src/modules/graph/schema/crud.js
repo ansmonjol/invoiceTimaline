@@ -13,7 +13,7 @@ const emitter = require('./../../base/emitter');
 const getQueries = function getQueries(params) {
   let queries = {};
   if (params._meta) {
-    queries = JSON.parse(params._meta);
+    queries = JSON.parse(JSON.stringify(params._meta));
     delete params._meta;
     const where = JSON.parse(JSON.stringify(params));
     if (where && Object.keys(where).length) queries.where = where;
@@ -56,7 +56,7 @@ Object.keys(models).forEach((modelName) => {
     if (modelName !== 'Account') {
       map[`add${modelName}`] = {
         name: `add${modelName}`,
-        type: new GraphQLObjectType({ name: `add${modelName}Type`, fields }),
+        type: GraphQLJSON,
         args,
         resolve: async (parent, values, { ctx, accountId, account, language }) => {
           // await safe({ ctx, accountId, account, language });
@@ -87,7 +87,7 @@ Object.keys(models).forEach((modelName) => {
 
     map[`update${modelName}`] = {
       name: `update${modelName}`,
-      type: new GraphQLObjectType({ name: `update${modelName}Type`, fields }),
+      type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
         // await safe({ ctx, accountId, account, language });
@@ -101,7 +101,7 @@ Object.keys(models).forEach((modelName) => {
 
     map[`archive${modelName}`] = {
       name: `archive${modelName}`,
-      type: new GraphQLObjectType({ name: `archive${modelName}Type`, fields }),
+      type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
         // await safe({ ctx, accountId, account, language });
@@ -131,7 +131,7 @@ Object.keys(models).forEach((modelName) => {
     args._meta = { type: GraphQLJSON, description: 'meta arg' };
     map[`one${modelName}`] = {
       name: `one${modelName}`,
-      type: new GraphQLObjectType({ name: `one${modelName}Type`, fields }),
+      type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
         // await safe({ ctx, accountId, account, language });
@@ -145,19 +145,30 @@ Object.keys(models).forEach((modelName) => {
 
     map[`list${modelName}`] = {
       name: `list${modelName}`,
-      type: new GraphQLList(new GraphQLObjectType({ name: `list${modelName}Type`, fields })),
+      type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
         // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
+
+        // Manage custom incude
+        if (queries.include && Model.getInclude) {
+          queries.include = Model[include];
+        } else {
+          queries.include = Model.include || [];
+        }
+
+
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         queries.offset = queries.offset || 0;
-        queries.limit = queries.limit || 30;
+        queries.limit = queries.limit || 10;
         if (values._meta && values._meta.noLimit) delete queries.limit;
         queries.order = queries.order || Model.order;
         queries.loggin = console.log;
+        console.log('queries', queries);
         const records = await Model.findAll(queries);
         emitter.emit(`list${modelName}`, { queries, records, language });
+        console.log('records', JSON.parse(JSON.stringify(records)));
         return records;
       }
     };
