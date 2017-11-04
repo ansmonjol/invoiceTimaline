@@ -1,13 +1,15 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
+
 import App from './app'
 import {
   Home,
+  Auth,
   NotFound,
 } from './app/components'
 
 /**
- * Compose en série les fonctions onEnter des routes
+ * Serail compose for onEnter route functions
  * @param  {[type]} hooks [description]
  * @return {[type]}       [description]
  */
@@ -36,7 +38,7 @@ module.exports = (
     <IndexRoute onEnter={composeEnterHooksSeries()} component={Home} />
 
     // All
-    // <Route name="oauth" path="oauth/:id" component={'should not be a string here'} />
+    <Route name="login" path="login" component={Auth} />
 
     <Route path="*" component={NotFound} />
   </Route>
