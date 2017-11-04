@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames'
 
-const Tab = ({ items, active }) => {
+const Tab = ({ items, active, onSearch }) => {
   return (
     <ul className="nav nav-tabs tab-container-small">
       {(items || []).map((item, index) => {
@@ -16,13 +16,22 @@ const Tab = ({ items, active }) => {
           </li>
         )
       })}
+      {!!onSearch &&
+        <input
+          type="text"
+          className="floatRight search-input"
+          placeholder="Search"
+          onChange={onSearch}
+        />
+      }
     </ul>
   )
 }
 
 Tab.propTypes = {
-  items: React.PropTypes.any,
-  active: React.PropTypes.any
+  items: React.PropTypes.any.isRequired,
+  active: React.PropTypes.any.isRequired,
+  onSearch: React.PropTypes.func,
 }
 
 export default Tab;

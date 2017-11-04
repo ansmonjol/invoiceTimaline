@@ -36,11 +36,23 @@ class Invoice extends React.Component {
     this._fetchData()
   }
 
-  _fetchData = (query = {}) => {
+  _fetchData = () => {
+    // Get url datas
     const status = this._getQueryType(this.props.location.query.type)
-    const args = { ...query, status }
+    const search = this.props.location.query.search
+
+    // Build query
+    const query = {
+      status,
+      _meta: {
+        customWhere: [
+          'searchLike',
+          `${search}`,
+        ]
+      }
+    }
     // Get invoice type
-    this.props.listInvoice(args)
+    this.props.listInvoice(query)
   }
 
   setQuery = (...args) => {
@@ -79,10 +91,15 @@ class Invoice extends React.Component {
 
 
   onTab(tab) {
-    const status = this._getQueryType(tab)
+    // const status = this._getQueryType(tab)
     this.setQuery(['type', tab]);
-    this._fetchData({ status });
+    this._fetchData();
     this.setState({ tabActived: tab });
+  }
+
+  handleSearch = (e) => {
+    this.setQuery(['search', e.target.value]);
+    this._fetchData();
   }
 
   _renderFormatedStatus = (status) => {
@@ -128,7 +145,7 @@ class Invoice extends React.Component {
 
 
         <div className="col-lg-10 col-lg-offset-1 nopd mrg-top30">
-          <Tab items={tabs} active={tabActived} />
+          <Tab items={tabs} active={tabActived} onSearch={this.handleSearch}/>
           <Table striped bordered condensed hover>
             <thead>
               <tr>

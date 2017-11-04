@@ -42,7 +42,26 @@ module.exports = function Invoice(sequelize, DataTypes) {
 
         this.belongsTo(models.Account, { as: 'account' });
         this.belongsTo(models.Customer, { as: 'customer' });
-      }
+      },
+      searchLike: async (models, where, search) => {
+        if (search) {
+          const ids = [];
+
+          // Search in doc
+          const rowsInv = await models.Invoice.findAll({
+            where: {
+              ref: { $iLike: `%${search}%` },
+            }, attributes: ['id']
+          });
+
+          for (let ri = 0; ri < rowsInv.length; ri++) {
+            ids.push(rowsInv[ri].id);
+          }
+
+          where.id = ids;
+        }
+        return where;
+      },
     },
     // don't delete database entries but set the newly added attribute deletedAt
     // to the current date (when deletion was done). paranoid will only work if

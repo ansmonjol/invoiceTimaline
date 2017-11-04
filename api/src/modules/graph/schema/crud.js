@@ -158,6 +158,15 @@ Object.keys(models).forEach((modelName) => {
           queries.include = Model.include || [];
         }
 
+        // Check for custom where query
+        if (queries.customWhere && queries.customWhere[1] !== null) {
+          if (queries.where) {
+            queries.where = await Model[queries.customWhere[0]](models, queries.where, queries.customWhere[1]);
+          } else {
+            queries.where = await Model[queries.customWhere[0]](models, {}, queries.customWhere[1]);
+          }
+        }
+
 
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         queries.offset = queries.offset || 0;
