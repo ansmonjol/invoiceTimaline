@@ -11,7 +11,6 @@ import * as reducers from './app/reducers'
 import { DISABLED_LOG_REDUX } from './locale'
 import routes from './routes'
 
-
 fixNamedRoutesSupport(routes);
 
 const logger = createLogger();

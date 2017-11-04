@@ -1,6 +1,17 @@
 import React from 'react'
+import { browserHistory } from 'react-router'
+import { connect } from 'react-redux'
+
+import { Storage } from 'shared/storage'
+
+import * as actions from './actions'
 
 class Auth extends React.Component {
+  static propTypes = {
+    login: React.PropTypes.func,
+    params: React.PropTypes.object,
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -9,32 +20,14 @@ class Auth extends React.Component {
     }
   }
 
-  onAction = () => {
-    const sessionQuery = { email: this.state.info.email, password: this.state.info.password, accountId: this.state.account.id };
+  _handleLogin = () => {
 
+    if (!this.state.email || !this.state.password) return false;
     // Clean storage
-    Storage.remove('meCurrent');
-    Storage.remove('me');
-    Storage.remove('isLogged');
+    Storage.remove('accountId');
+    Storage.remove('userId');
 
-    loginQL(sessionQuery).then((data) => {
-      if (data && data.login && data.login.token) {
-        const row = data.login;
-        if (row.user.mustChangePassword === true) {
-          Storage.set('sessionQuery', data.login);
-          browserHistory.push('/login/newpassword');
-        } else {
-          Storage.remove('currentAccountLogin');
-          return this.loginSession(row);
-        }
-      } else if (data.login.account && (data.login.account.status === 101)) {
-        this.setState({ error: 101 });
-      } else if (data.login.account && (data.login.account.status === 102)) {
-        this.setState({ error: 102 });
-      } else {
-        this.setState({ error: 99 });
-      }
-    }).catch(() => this.setState({ error: true }));
+    this.props.login({ email: this.state.email, password: this.state.password })
   }
 
   _handleInputChange = (value, key) => {
@@ -62,6 +55,7 @@ class Auth extends React.Component {
           <button
             type="button"
             className="btn btn-success"
+            onClick={this._handleLogin}
           >
             Log in
           </button>
@@ -71,4 +65,4 @@ class Auth extends React.Component {
   }
 }
 
-export default Auth;
+export default connect(state => ({ authStore: state.authStore }), { ...actions })(Auth)

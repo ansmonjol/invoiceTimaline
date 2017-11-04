@@ -11,10 +11,9 @@ import 'whatwg-fetch';
 export function graph(query) {
   return new Promise((resolve, reject) => {
     const headers = { Accept: 'application/json', 'Content-Type': 'application/json' }
-    if (localStorage.getItem('meCurrent') !== null) {
-      const email = (JSON.parse(localStorage.getItem('meCurrent'))).user.email;
-      const token = (JSON.parse(localStorage.getItem('meCurrent'))).token;
-      headers.Authorization = `oauth_token = ${token}, oauth_owner_key = ${email}`;
+    if (localStorage.getItem('accountId') !== null) {
+      const accountId = localStorage.getItem('accountId');
+      headers.Authorization = `account_id = ${accountId}`;
     }
 
     if (DEBUG === true) console.log(query);
@@ -24,22 +23,22 @@ export function graph(query) {
       headers,
       body: JSON.stringify(body)
     })
-    .then((response) => {
-      if (response.status === 403) {
-        Logout.logout();
-        return;
-      }
+      .then((response) => {
+        if (response.status === 403) {
+          Logout.logout();
+          return;
+        }
 
-      if (response.status === 423 || response.status === 424) {
-        return reject(response);
-      }
-      return response.json();
-    })
-    .then((result) => {
-      resolve(result.data)
-    })
-    .catch((err) => {
-      return reject(err);
-    })
+        if (response.status === 423 || response.status === 424) {
+          return reject(response);
+        }
+        return response.json();
+      })
+      .then((result) => {
+        resolve(result.data)
+      })
+      .catch((err) => {
+        return reject(err);
+      })
   });
 }
