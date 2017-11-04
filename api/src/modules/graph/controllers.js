@@ -23,7 +23,6 @@ class Controller {
       if (ctx.request.headers.authorization) {
         // Get accout & user ids from headers
         const { headerAccountId, headerUserId } = TokenHelper.decodeAuthorization(ctx.request.headers.authorization);
-        console.log('headerAccountId, headerUserId', headerAccountId, headerUserId);
         if (!!headerAccountId) accountId = headerAccountId;
         if (!!headerUserId) userId = headerUserId;
       }

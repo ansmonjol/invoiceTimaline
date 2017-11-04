@@ -4,17 +4,13 @@ import { DEBUG as debug, API_URL as apiUrl } from 'src/locale'
 export const DEBUG = debug;
 export const API_URL = apiUrl;
 
-const s = Storage.get('meCurrent');
-let currency = 'EUR';
-if (s && s.account && s.account.currency) {
-  currency = s.account.currency;
-}
+const currency = 'EUR';
 
 /**
  * Locale languages
  * @type {[type]}
  */
-export const DEFAULT_LANGUAGE = Storage.get('language', 'fr');
+export const DEFAULT_LANGUAGE = 'fr';
 
 export const ISO_LANGUAGE = ((lang) => {
   if (lang === 'fr') return 'fr-FR';
@@ -35,21 +31,6 @@ export const DATE_FORMAT_DAY_MONTH = ((lang) => {
   if (lang === 'en') return 'MM/DD';
 })(DEFAULT_LANGUAGE)
 
-export const DATE_FORMAT_DISPLAY = ((lang) => {
-  if (lang === 'fr') return 'DD MMMM YYYY';
-  if (lang === 'en') return 'MMMM DD YYYY';
-})(DEFAULT_LANGUAGE)
-
-export const DATE_FORMAT_DAY_MONTH_DISPLAY = ((lang) => {
-  if (lang === 'fr') return 'DD MMMM';
-  if (lang === 'en') return 'MMMM DD';
-})(DEFAULT_LANGUAGE)
-
-export const DATE_FORMAT_DISPLAY_WITH_DAY = ((lang) => {
-  if (lang === 'fr') return 'dddd DD MMMM YYYY';
-  if (lang === 'en') return 'MMMM, dddd DD YYYY';
-})(DEFAULT_LANGUAGE)
-
 /**
  * Devis and currency
  * @type {[type]}
@@ -57,9 +38,9 @@ export const DATE_FORMAT_DISPLAY_WITH_DAY = ((lang) => {
 export const DEVISE_NAME = currency || 'EUR'
 
 export const DEVISE_SYMBOLE = (() => {
-  if (currency === 'EUR') return '€';
   if (currency === 'USD') return '$';
   if (currency === 'GBP') return '£';
+  return '€';
 })(DEVISE_NAME)
 
 export const PAGINATION_ITEMS = 10

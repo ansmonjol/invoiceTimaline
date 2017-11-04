@@ -8,7 +8,6 @@ import { Query } from 'shared/graph/query'
 export function listInvoiceQL() {
   // Build query
   const listInvoice = new Query('listInvoice')
-  listInvoice.props('ref', 'amount')
 
   // Call graph
   return graph(`{
