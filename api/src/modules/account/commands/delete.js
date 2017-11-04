@@ -9,7 +9,7 @@
 // * @param  {[type]} program [description]
 // * @return {[type]}         [description]
 // */
-// function relance(program) {
+function relance(program) {
 //   program
 //   .command('account:delete')
 //   .description('Delete account for disabled')
@@ -42,6 +42,6 @@
 //       }
 //     }
 //   });
-// }
-//
-// module.exports = [relance];
+}
+
+module.exports = [relance];

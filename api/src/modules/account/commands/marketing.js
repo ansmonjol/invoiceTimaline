@@ -3,13 +3,13 @@
 // const emitter = require('./../../base/emitter');
 // const localeConfig = require('./../../../config/locale');
 // const Raven = require('raven');
-//
+
 // /**
 // * [description]
 // * @param  {[type]} program [description]
 // * @return {[type]}         [description]
 // */
-// function relance(program) {
+function relance(program) {
 //   program
 //   .command('account:after3')
 //   .description('Send email when user create account after 3 days, without project')
@@ -45,6 +45,6 @@
 //       }
 //     }
 //   });
-// }
-//
-// module.exports = [relance];
+}
+
+module.exports = [relance];

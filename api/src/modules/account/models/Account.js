@@ -9,46 +9,23 @@ module.exports = function Account(sequelize, DataTypes) {
       primaryKey: true
     },
     name: { type: DataTypes.STRING, allowNull: false },
-    accountId: { type: DataTypes.STRING, allowNull: false },
 
-    vat: { type: DataTypes.STRING },
+    // infos
     address: { type: DataTypes.STRING },
+    country: { type: DataTypes.STRING },
+    zip: { type: DataTypes.STRING },
     phone: { type: DataTypes.STRING },
-    mail: { type: DataTypes.STRING },
-
-    sizeTeam: { type: DataTypes.STRING },
-    knowApp: { type: DataTypes.STRING },
-
-    birthday: { type: DataTypes.DATE, defaultValue: new Date() },
-
-    billableRate: DataTypes.FLOAT,
-    alertRate: { type: DataTypes.FLOAT, defaultValue: 80 },
-    deleteTeamDate: { type: DataTypes.DATE },
-    allowInvite: { type: DataTypes.BOOLEAN, defaultValue: false },
-    disableEditTime: { type: DataTypes.BOOLEAN, defaultValue: false },
-    disableNote: { type: DataTypes.BOOLEAN, defaultValue: false },
-
-    // Hour in day
-    totalHourInDay: { type: DataTypes.INTEGER, defaultValue: 7 },
-
-    number: { type: DataTypes.INTEGER },
+    email: { type: DataTypes.STRING },
 
     // Billing
     billingEmail: { type: DataTypes.STRING },
     billingAddress: { type: DataTypes.STRING },
     billingCountry: { type: DataTypes.STRING },
+    billingZip: { type: DataTypes.STRING },
     billingTVA: { type: DataTypes.STRING },
-
-    // Ip inscription user
-    ip: { type: DataTypes.STRING },
 
     language: { type: DataTypes.STRING, defaultValue: 'fr' },
     currency: { type: DataTypes.STRING, defaultValue: 'EUR' },
-
-    _tags: { type: DataTypes.ARRAY(DataTypes.STRING), allowNull: true, defaultValue: [] },
-
-    // Stop billing suspended
-    suspendedAt: { type: DataTypes.DATE },
 
     // 101: Suspended
     // 100: Enabled
@@ -60,14 +37,13 @@ module.exports = function Account(sequelize, DataTypes) {
       associate: function associate(models) {
         // set default order
         this.order = [['name', 'ASC']];
+
+        // // Relations
         // this.include = [
         //   { model: models.User, as: 'users' }
         // ];
-        // this.hasMany(models.User, { as: 'users', foreignKey: 'accountId' });
 
-        // For billing
-        const eventUpdateUser = async (row) => { emitter.emit('account:event', { account: row, models }); };
-        this.hook('afterDestroy', eventUpdateUser);
+        // this.hasMany(models.User, { as: 'users', foreignKey: 'accountId' });
       }
     },
     // don't delete database entries but set the newly added attribute deletedAt
