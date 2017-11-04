@@ -64,7 +64,7 @@ module.exports = async function customerSeed(models, accounts) {
           issuedAt: faker.date.recent(),
           dueDate: faker.date.recent(),
           amount: Number(faker.finance.amount()),
-          status: faker.random.arrayElement([103, 102, 101, 100]),
+          status: faker.random.arrayElement([103, 102, 100]),
           accountId: account.id,
           customerId: (faker.random.arrayElement(customers)).id,
         }
