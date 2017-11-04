@@ -30,7 +30,7 @@ export default class App extends React.Component {
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
-            <NavItem eventKey={1} onClick={() => browserHistory.push('.')}>Home</NavItem>
+            <NavItem eventKey={1} onClick={() => browserHistory.push('/')}>Home</NavItem>
             <NavItem eventKey={2} onClick={() => browserHistory.push('/invoices')}>Invoices</NavItem>
             <NavItem eventKey={2} onClick={() => browserHistory.push('/payments')}>Payments</NavItem>
             <NavItem eventKey={2} onClick={() => browserHistory.push('/customers')}>Customers</NavItem>
