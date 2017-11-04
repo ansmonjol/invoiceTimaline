@@ -17,7 +17,7 @@ module.exports = function Invoice(sequelize, DataTypes) {
 
     // If paid
     paymentDate: { type: DataTypes.DATE },
-    paymentDetails: { type: DataTypes.STRING },
+    paymentDetails: { type: DataTypes.JSONB },
 
     issuedAt: { type: DataTypes.DATE, defaultValue: new Date() },
     dueDate: { type: DataTypes.DATE, defaultValue: new Date() },
