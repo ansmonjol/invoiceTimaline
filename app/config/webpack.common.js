@@ -11,7 +11,7 @@ var WebpackShellPlugin = require('./shell');
 var WatchIgnorePlugin = require("webpack").WatchIgnorePlugin;
 
 module.exports = {
-  entry: ['./src/vendor.js', './src/main.js'],
+  entry: ['babel-polyfill', './src/vendor.js', './src/main.js'],
   output: {
     path: helpers.root('dist'),
     filename: 'bundle.js'
