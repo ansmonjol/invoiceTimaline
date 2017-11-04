@@ -26,9 +26,9 @@ export const DATE_FORMAT = ((lang) => {
   if (lang === 'en') return 'MM/DD/YYYY';
 })(DEFAULT_LANGUAGE)
 
-export const DATE_FORMAT_DAY_MONTH = ((lang) => {
-  if (lang === 'fr') return 'DD/MM';
-  if (lang === 'en') return 'MM/DD';
+export const DATE_FORMAT_DATE_HOUR = ((lang) => {
+  if (lang === 'fr') return 'DD/MM/YYYY hh:mm:ss';
+  if (lang === 'en') return 'DD/MM/YYYY hh:mm:ss';
 })(DEFAULT_LANGUAGE)
 
 /**

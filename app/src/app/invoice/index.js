@@ -9,6 +9,7 @@ import Tab from 'shared/ui/tab'
 import Pagination from 'shared/ui/pagination'
 import {
   ACCOUNTING_FORMAT_MONEY,
+  DATE_FORMAT_DATE_HOUR,
   PAGINATION_ITEMS,
   DATE_FORMAT,
 } from 'src/parameters'
@@ -121,7 +122,7 @@ class Invoice extends React.Component {
       case 100:
         return <span className="label label-info">Due</span>;
       case 101:
-        return <span><span className="label label-success">Paid</span> <span>({moment(invoice.paymentDate).format('YYYY/DD/MM hh:mm:ss')})</span></span>;
+        return <span><span className="label label-success">Paid</span> <span>({moment(invoice.paymentDate).format(DATE_FORMAT_DATE_HOUR)})</span></span>;
       case 102:
         return <span className="label label-warning">Overdue</span>
       case 103:
