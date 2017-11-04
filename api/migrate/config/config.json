@@ -2,21 +2,21 @@
   "development": {
     "username": "alexandre",
     "password": "root",
-    "database": "billypay",
+    "database": "invoice_timeline",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "alexandre",
     "password": "root",
-    "database": "billypay",
+    "database": "invoice_timeline",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
     "username": "alexandre",
     "password": "root",
-    "database": "billypay",
+    "database": "invoice_timeline",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }

@@ -26,7 +26,7 @@ const getArgs = ({ data }) => {
   if (data.token.code) row.code = data.token.code;
   if (data.token.id || data.user.id) row.tokenid = data.token.id || data.user.id;
   if (data.account.expirationDate) row.expirationDate = data.account.expirationDate;
-  row.DOMAIN = localeConfig.DOMAIN || 'https://billypay.me';
+  row.DOMAIN = localeConfig.DOMAIN || 'https://invoice-timeline.co';
   return row;
 };
 
@@ -171,7 +171,7 @@ module.exports = async (notificationEmitter) => {
           ]
         });
 
-        row.DOMAIN = localeConfig.DOMAIN || 'https://billypay.me';
+        row.DOMAIN = localeConfig.DOMAIN || 'https://invoice-timeline.co';
         row.user = JSON.parse(JSON.stringify(record));
         row.account = record.account;
         row.author = record.author;
@@ -209,7 +209,7 @@ module.exports = async (notificationEmitter) => {
 
           if (record) {
             const row = {};
-            row.DOMAIN = localeConfig.DOMAIN || 'https://billypay.me';
+            row.DOMAIN = localeConfig.DOMAIN || 'https://invoice-timeline.co';
             row.user = JSON.parse(JSON.stringify(record));
             row.account = row.user.account;
             row.author = row.user.author;
@@ -362,8 +362,8 @@ module.exports = async (notificationEmitter) => {
       const args = getArgs({ data: { user, account } });
       args.projects = projets;
       args.projectCount = projectCount;
-      if (args.DOMAIN.indexOf('billypay.me')) {
-        args.url = `https://${account.accountId}.billypay.me/times?current`;
+      if (args.DOMAIN.indexOf('invoice-timeline.co')) {
+        args.url = `https://${account.accountId}.invoice-timeline.co/times?current`;
       }
       if (args.DOMAIN.indexOf('nextglc.eu')) {
         args.url = `https://${account.accountId}.nextglc.eu/times?current`;

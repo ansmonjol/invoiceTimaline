@@ -3,11 +3,11 @@ const Mailler = require('./index');
 module.exports = [
   function (program) {
     const row = {
-      url: 'https://billypay.me'
+      url: 'https://invoice-timeline.co'
       // token: 201415,
       // account: {
-      //   accountId: 'youngapp',
-      //   name: 'Young App'
+      //   accountId: 'test',
+      //   name: 'Test App'
       // },
       // name: 'Mana Engine',
       // password: '2U3_TKHYi',

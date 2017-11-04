@@ -7,7 +7,7 @@ const path = require('path');
  */
 module.exports = {
 
-  APPLICATION_NAME: 'BillyPay API',
+  APPLICATION_NAME: 'Invoice Timeline API',
 
   // Version of application
   APPLICATION_VERSION: '1.0.0',

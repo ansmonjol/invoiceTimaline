@@ -14,7 +14,7 @@ class Mailler {
       const template = Handlebars.compile(source);
       const _body = template(params.bodyParams);
 
-      // const fromEmail = new helper.Email('no-reply@billypay.me', 'Billypay');
+      // const fromEmail = new helper.Email('no-reply@invoice-timeline.co', 'Invoice Timeline');
       // const toEmail = new helper.Email(params.recipients[0].email);
       const subject = params.subject;
       // const content = new helper.Content('text/html', _body);
@@ -43,7 +43,7 @@ class Mailler {
     try {
       if (localeConfig.DISABLED_EMAIL !== true) {
         // const mail = new helper.Mail();
-        // const fromEmail = new helper.Email('no-reply@billypay.me', 'Billypay');
+        // const fromEmail = new helper.Email('no-reply@invoice-timeline.co', 'Invoice Timeline');
         const subject = params.subject || ' ';
         // const toEmail = new helper.Email(params.recipients[0].email);
         // const content = new helper.Content('text/html', params.body || ' ');
@@ -71,7 +71,7 @@ class Mailler {
           const base64File = new Buffer(file).toString('base64');
           attachment.setContent(base64File);
           attachment.setType('application/pdf');
-          attachment.setFilename(`Billypay - ${params.bodyParams.date}.pdf`);
+          attachment.setFilename(`Invoice Timeline - ${params.bodyParams.date}.pdf`);
           attachment.setDisposition('attachment');
           mail.addAttachment(attachment);
         }
