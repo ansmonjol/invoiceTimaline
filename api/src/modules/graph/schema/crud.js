@@ -165,6 +165,7 @@ Object.keys(models).forEach((modelName) => {
         if (values._meta && values._meta.noLimit) delete queries.limit;
         queries.order = queries.order || Model.order;
         queries.loggin = console.log;
+        console.log('queries', queries);
         const records = await Model.findAll(queries);
         emitter.emit(`list${modelName}`, { queries, records, language });
         return records;
