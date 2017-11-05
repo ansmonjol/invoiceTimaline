@@ -12,9 +12,9 @@ module.exports = {
 
   // Database configuration
   // 'mysql'|'mariadb'|'sqlite'|'postgres'|'mssql'
-  DATABASE: 'postgres://alexandre:root@localhost:5432/pilotin',
+  DATABASE: 'postgres://alexandre:root@localhost:5432/invoice_timeline',
 
-  DATABASE_TESTING: 'postgres://alexandre:root@localhost:5432/pilotin',
+  DATABASE_TESTING: 'postgres://alexandre:root@localhost:5432/invoice_timeline',
 
   // Update
   SENTRY: true,
