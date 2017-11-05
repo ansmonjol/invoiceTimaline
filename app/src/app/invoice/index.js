@@ -155,7 +155,7 @@ class Invoice extends React.Component {
   _renderInvoicesRows = () => (
     this.props.invoiceStore.listInvoice.map((invoice, index) => (
       <tr key={index}>
-        <td className="pointer" onClick={() => browserHistory.push(`/invoices/${invoice.id}`)}><a>Invoice #{invoice.ref}</a></td>
+        <td><a className="pointer" onClick={() => browserHistory.push(`/invoices/${invoice.id}`)}>Invoice #{invoice.ref}</a></td>
         <td>{accounting.formatMoney(invoice.amount, ACCOUNTING_FORMAT_MONEY)}</td>
         <td>{this._renderFormatedStatus(invoice)}</td>
         <td>{invoice.status !== 101 ? moment(invoice.dueDate).format(DATE_FORMAT) : '-'}</td>
