@@ -42,6 +42,18 @@ module.exports = function Invoice(sequelize, DataTypes) {
 
         this.belongsTo(models.Account, { as: 'account' });
         this.belongsTo(models.Customer, { as: 'customer' });
+
+        // Hooks
+        const saveHook = async function saveHook(row) {
+          row.fullName = `${row.firstName} ${row.lastName}`;
+        };
+
+        this.hook('beforeBulkCreate', async function beforeBulkCreate(rows) {
+          emitter.emit('invoice:create:timeline', { account, models });
+        });
+
+        this.hook('beforeCreate', async (row) => { await saveHook(row); });
+
       },
       searchLike: async (models, where, search) => {
         if (search) {

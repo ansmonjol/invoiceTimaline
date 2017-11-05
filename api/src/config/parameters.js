@@ -22,8 +22,12 @@ module.exports = {
     'file',
     'base',
     'notifications',
-    'account',
     'graph',
+    'account',
+    'customer',
+    'invoice',
+    'user',
+    'timeline',
   ],
 
   // Root application
