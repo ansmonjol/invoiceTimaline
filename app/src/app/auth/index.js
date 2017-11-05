@@ -44,12 +44,14 @@ class Auth extends React.Component {
             type="email"
             className="form-control mrg-top20"
             value={email}
+            placeholder="Email"
             onChange={(e) => this._handleInputChange(e.target.value, 'email')}
           />
           <input
             type="password"
             className="form-control mrg-top20"
             value={password}
+            placeholder="Password"
             onChange={(e) => this._handleInputChange(e.target.value, 'password')}
           />
 
