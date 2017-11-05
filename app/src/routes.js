@@ -10,7 +10,6 @@ import {
   NotFound,
   Invoice,
   OneInvoice,
-  Payment,
   Customer,
 } from './app/components'
 
@@ -64,7 +63,6 @@ module.exports = (
     // App
     <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/invoices" component={Invoice} />
     <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/invoices/:id" component={OneInvoice} />
-    <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/payments" component={Payment} />
     <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/customers" component={Customer} />
 
     <Route path="*" component={NotFound} />
