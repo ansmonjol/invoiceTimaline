@@ -46,15 +46,16 @@ module.exports = function Invoice(sequelize, DataTypes) {
         this.hasMany(models.Timeline, { as: 'timeline', foreignKey: 'invoiceId' });
 
         // Hooks
-        const saveHook = async function saveHook(row) {
-          row.fullName = `${row.firstName} ${row.lastName}`;
-        };
+        // const createHook = async (invoice) => {  emitter.emit('invoice:create:timeline', { invoice, models }); };
 
-        this.hook('beforeBulkCreate', async function beforeBulkCreate(rows) {
-          emitter.emit('invoice:create:timeline', { account, models });
-        });
+        // this.hook('afterBulkCreate', createHook);
+        // this.hook('afterCreate', createHook);
 
-        this.hook('beforeCreate', async (row) => { await saveHook(row); });
+        const eventAfterCreate = async (invoice) => { emitter.emit('invoice:create:timeline', { invoice, models }); };
+
+        // Define hooks
+        this.hook('afterBulkCreate', eventAfterCreate);
+        this.hook('afterCreate', eventAfterCreate);
 
       },
       searchLike: async (models, where, search) => {

@@ -27,7 +27,7 @@ module.exports = function Timeline(sequelize, DataTypes) {
       name: { plural: 'timelines', singular: 'timeline' },
       classMethods: {
         associate(models) {
-          this.order = [['createdAt', 'ASC']];
+          this.order = [['createdAt', 'DESC']];
 
           this.include = [
             { model: models.Account, as: 'account' },

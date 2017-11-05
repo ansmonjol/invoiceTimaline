@@ -1,4 +1,4 @@
-import { Storage } from 'shared/storage'
+import Storage from 'shared/storage'
 import { loginQL } from './graph'
 import * as ACTION_TYPES from './constants'
 import { browserHistory } from 'react-router'

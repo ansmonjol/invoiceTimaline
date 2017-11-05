@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 
-import { Storage } from 'shared/storage'
+import Storage from 'shared/storage'
 
 import App from './app'
 import {

@@ -5,7 +5,8 @@ import * as ACTION_TYPE from './constants'
 export const initialState = {
   listInvoice: [],
   oneInvoice: {
-    customer: {}
+    customer: {},
+    timeline: []
   },
   pages: 0,
   countInvoices: 0,
@@ -41,6 +42,21 @@ export default function invoiceStore(state = initialState, action) {
     case ACTION_TYPE.INVOICE_ONE_INVOICE_SUCCESS:
       newState.loading = false;
       newState.oneInvoice = action.payload.oneInvoice;
+      break;
+
+
+    case ACTION_TYPE.INVOICE_UPDATE_INVOICE:
+      newState.loading = true;
+      break;
+
+    case ACTION_TYPE.INVOICE_UPDATE_INVOICE_FAILURE:
+      newState.loading = false;
+      break;
+
+    case ACTION_TYPE.INVOICE_UPDATE_INVOICE_SUCCESS:
+      newState.loading = false;
+      newState.oneInvoice = { ...newState.oneInvoice, ...action.payload.updateInvoice };
+      newState.oneInvoice.timeline.unshift({ ...action.payload.addTimeline })
       break;
 
     default:

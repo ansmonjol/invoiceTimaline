@@ -1,4 +1,4 @@
-import { Storage } from 'shared/storage'
+import Storage from 'shared/storage'
 import { DEBUG as debug, API_URL as apiUrl } from 'src/locale'
 
 export const DEBUG = debug;

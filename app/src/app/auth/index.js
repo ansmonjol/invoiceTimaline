@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { Storage } from 'shared/storage'
+import Storage from 'shared/storage'
 
 import * as actions from './actions'
 

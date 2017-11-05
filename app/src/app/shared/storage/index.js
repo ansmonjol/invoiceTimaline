@@ -1,5 +1,5 @@
 
-export class Storage {
+export default class Storage {
 
   static get(key, value = null) {
     const v = localStorage.getItem(key);

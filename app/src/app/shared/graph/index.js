@@ -1,4 +1,4 @@
-import { Storage } from 'shared/storage'
+import Storage from 'shared/storage'
 import { API_URL, DEBUG } from 'src/parameters'
 import { Logout } from 'shared/util/logout'
 import 'whatwg-fetch';
