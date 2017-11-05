@@ -1,12 +1,10 @@
 import React from 'react'
-import moment from 'moment'
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { Table } from 'react-bootstrap'
 
 import Pagination from 'shared/ui/pagination'
 import {
-  DATE_FORMAT_DATE_HOUR,
   PAGINATION_ITEMS,
 } from 'src/parameters'
 
@@ -66,22 +64,6 @@ class Customer extends React.Component {
     })
   }
 
-  // Get query type depending on selected tab
-  _getQueryType(tab) {
-    switch (tab) {
-      case 'all':
-        return null
-      case 'due':
-        return 100
-      case 'paid':
-        return 101
-      case 'overdue':
-        return 102
-      default:
-        return null
-    }
-  }
-
   _handlePagination = (page) => {
     // Set new url
     this.setQuery(['page', page]);
@@ -90,29 +72,11 @@ class Customer extends React.Component {
     this._fetchData();
   }
 
-  // Render status label depending on customer status
-  _renderFormatedStatus = (customer) => {
-    switch (customer.status) {
-      case 99:
-        return <span className="label label-default">Archived</span>;
-      case 100:
-        return <span className="label label-info">Due</span>;
-      case 101:
-        return <span><span className="label label-success">Paid</span> <span>({moment(customer.paymentDate).format(DATE_FORMAT_DATE_HOUR)})</span></span>;
-      case 102:
-        return <span className="label label-warning">Overdue</span>
-      case 103:
-        return <span className="label label-danger">In dispute</span>;
-      default:
-        break;
-    }
-  }
-
   // Render customers rows
   _renderCustomersRows = () => (
     this.props.customerStore.listCustomer.map((customer, index) => (
       <tr key={index}>
-        <td><a className="pointer" onClick={() => browserHistory.push(`/customer/${customer.id}`)}>{customer.name}</a></td>
+        <td><a className="pointer" onClick={() => browserHistory.push(`/customers/${customer.id}`)}>{customer.name}</a></td>
         <td>{customer.address}, {customer.zip} {customer.city}</td>
         <td>{customer.phone}</td>
         <td>{customer.email}</td>

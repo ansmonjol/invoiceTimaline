@@ -209,7 +209,7 @@ class OneInvoice extends React.Component {
         <Toast ref="toastContainer" />
         {!!showCommentModal && this._renderCommentModal()}
 
-        <h1>Edit Invoice #{invoiceStore.oneInvoice.ref}</h1>
+        <h1>Invoice #{invoiceStore.oneInvoice.ref}</h1>
         {!!invoiceStore.loading && <p className="absolute-loading">Loading...</p>}
 
 

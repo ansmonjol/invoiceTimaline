@@ -4,6 +4,7 @@ import * as ACTION_TYPE from './constants'
 
 export const initialState = {
   listCustomer: [],
+  oneCustomer: {},
   countCustomer: 0,
 }
 
@@ -36,6 +37,7 @@ export default function customerStore(state = initialState, action) {
 
     case ACTION_TYPE.CUSTOMER_ONE_CUSTOMER_SUCCESS:
       newState.loading = false;
+      newState.oneCustomer = action.payload.oneCustomer;
       break;
 
     default:

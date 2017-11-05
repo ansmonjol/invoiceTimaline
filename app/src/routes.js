@@ -11,6 +11,7 @@ import {
   Invoice,
   OneInvoice,
   Customer,
+  OneCustomer,
 } from './app/components'
 
 
@@ -58,12 +59,13 @@ module.exports = (
     <IndexRoute onEnter={composeEnterHooksSeries(requireAuth)} component={Home} />
 
     // Auth
-    <Route name="login" path="login" component={Auth} />
+    <Route name="login" path="/login" component={Auth} />
 
     // App
     <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/invoices" component={Invoice} />
     <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/invoices/:id" component={OneInvoice} />
     <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/customers" component={Customer} />
+    <Route onEnter={composeEnterHooksSeries(requireAuth)} name="login" path="/customers/:id" component={OneCustomer} />
 
     <Route path="*" component={NotFound} />
   </Route>
