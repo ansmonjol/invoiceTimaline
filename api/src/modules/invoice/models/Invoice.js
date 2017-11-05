@@ -38,10 +38,12 @@ module.exports = function Invoice(sequelize, DataTypes) {
         this.include = [
           { model: models.Account, as: 'account' },
           { model: models.Customer, as: 'customer' },
+          { model: models.Timeline, as: 'timeline' },
         ];
 
         this.belongsTo(models.Account, { as: 'account' });
         this.belongsTo(models.Customer, { as: 'customer' });
+        this.hasMany(models.Timeline, { as: 'timeline', foreignKey: 'invoiceId' });
 
         // Hooks
         const saveHook = async function saveHook(row) {
