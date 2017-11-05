@@ -14,7 +14,7 @@ export default class Breadcrumb extends React.Component {
             <li key={index}>
               <If condition={row.active !== true}>
                 <Then>
-                  <a onClick={() => browserHistory.push(row.ref === '/' ? '/' : (`/${row.ref}`))}>{row.displayName}</a>
+                  <a className="pointer" onClick={() => browserHistory.push(row.ref === '/' ? '/' : (`/${row.ref}`))}>{row.displayName}</a>
                 </Then>
                 <Else>
                   <span>{row.displayName}</span>
