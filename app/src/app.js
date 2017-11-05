@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { browserHistory } from 'react-router'
 import {
   Navbar,
@@ -9,13 +10,18 @@ import {
   MenuItem
 } from 'react-bootstrap'
 
-import ConfirmModal from 'shared/ui/confirm'
+import Storage from 'shared/storage'
 import Logout from 'shared/util/logout'
+import * as actions from 'app/auth/actions'
+import ConfirmModal from 'shared/ui/confirm'
 
-export default class App extends React.Component {
+
+class App extends React.Component {
 
   static propTypes = {
     children: PropTypes.any,
+    loadDatas: PropTypes.func,
+    location: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -25,12 +31,34 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this._fetchData()
+  }
+
+  _fetchData = () => {
+    // Get storage datas
+    const accountId = Storage.get('accountId');
+    const userId = Storage.get('userId');
+
+    // If no data in storage
+    if (!!accountId && !!userId) {
+      this.props.loadDatas({ accountId, userId });
+    } else if (this.props.location !== '/login') {
+      // Redirect to login page
+      browserHistory.push('/login')
+    }
+  }
+
+
   render() {
     const { confirmModal } = this.state;
 
     return (
       <div>
-        {!!confirmModal && <ConfirmModal title="Log out" onClose={() => this.setState({ confirmModal: false })} onOk={() => Logout.logout()} />}
+        {!!confirmModal &&
+          <ConfirmModal title="Log out" onClose={() => this.setState({ confirmModal: false })} onOk={() => Logout.logout()} />
+        }
+
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -57,3 +85,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+export default connect(state => ({ authStore: state.authStore }), { ...actions })(App)
