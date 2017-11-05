@@ -38,10 +38,6 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        // loaders: [
-        //
-        //   'babel?presets[]=react,presets[]=es2015,presets[]=stage-0'
-        // ]
         loader: 'babel-loader',
         query: {
           presets: [
@@ -74,13 +70,6 @@ module.exports = {
     new CopyWebpackPlugin([{
       from: 'src/assets'
     }]),
-    // new WebpackShellPlugin({
-    //      onBuildEnd: ['npm run trad']
-    //     //  onBuildEnd: ['echo "goodbye world"']
-    // }),
-    // new WatchIgnorePlugin([
-    //     helpers.root('src/app/shared/messages/locales'),
-    // ]),
   ],
 
   postcss: function() {
