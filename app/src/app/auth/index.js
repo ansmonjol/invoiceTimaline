@@ -37,27 +37,31 @@ class Auth extends React.Component {
   render() {
     const { email, password } = this.state
     return (
-      <div>
-        <h1>Login</h1>
-        <div>
+      <div className="col-lg-12">
+        <div className="col-lg-4 col-lg-offset-4 mrg-top50">
+          <h1 className="tac">Login</h1>
           <input
             type="email"
+            className="form-control mrg-top20"
             value={email}
             onChange={(e) => this._handleInputChange(e.target.value, 'email')}
           />
           <input
             type="password"
+            className="form-control mrg-top20"
             value={password}
             onChange={(e) => this._handleInputChange(e.target.value, 'password')}
           />
 
-          <button
-            type="button"
-            className="btn btn-success"
-            onClick={this._handleLogin}
-          >
-            Log in
-          </button>
+          <div className="mrg-top20">
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={this._handleLogin}
+            >
+              Log in
+            </button>
+          </div>
         </div>
       </div>
     )
