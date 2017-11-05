@@ -5,6 +5,7 @@ import * as ACTION_TYPE from './constants'
 export const initialState = {
   countInvoice: 0,
   countCustomer: 0,
+  balance: 0,
 }
 
 export default function homeStore(state = initialState, action) {
@@ -22,6 +23,7 @@ export default function homeStore(state = initialState, action) {
       newState.loading = false;
       newState.countInvoice = action.payload.countInvoice;
       newState.countCustomer = action.payload.countCustomer;
+      newState.balance = action.payload.sumPaid - action.payload.sumTotal;
       break;
 
     default:

@@ -1,8 +1,15 @@
 import React from 'react'
+import classNames from 'classnames'
 import { connect } from 'react-redux'
+import { accounting } from 'accounting'
 import { browserHistory } from 'react-router'
 
+import {
+  ACCOUNTING_FORMAT_MONEY,
+} from 'src/parameters'
+
 import * as actions from './actions'
+
 
 class Home extends React.Component {
   static propTypes = {
@@ -37,6 +44,8 @@ class Home extends React.Component {
             Customers
           </li>
         </ul>
+
+        <span className={classNames('col-md-12', { 'clr-red': homeStore.balance < 0 }, { 'clr-green': homeStore.balance > 0 })}>Balance : {accounting.formatMoney(homeStore.balance, ACCOUNTING_FORMAT_MONEY)}</span>
       </div>
     )
   }

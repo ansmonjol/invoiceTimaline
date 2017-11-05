@@ -22,6 +22,7 @@ class App extends React.Component {
     children: PropTypes.any,
     loadDatas: PropTypes.func,
     location: PropTypes.object,
+    authStore: PropTypes.object,
   }
 
   constructor(props, context) {
@@ -53,6 +54,7 @@ class App extends React.Component {
 
 
   render() {
+    const { authStore } = this.props;
     const { confirmModal } = this.state;
     const userId = Storage.get('userId');
     const accountId = Storage.get('accountId');
@@ -75,7 +77,7 @@ class App extends React.Component {
             <NavItem eventKey={3} onClick={() => browserHistory.push('/customers')}>Customers</NavItem>
           </Nav>
           <Nav className="floatRight">
-            <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
+            <NavDropdown eventKey={3} title={` ${authStore.oneAccount.name} - ${authStore.oneUser.fullName} `} id="basic-nav-dropdown">
               <MenuItem eventKey={3.1} onClick={() => this.setState({ confirmModal: true })}>Log out</MenuItem>
             </NavDropdown>
           </Nav>
