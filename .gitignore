@@ -1,6 +1,2 @@
 # node modules
 node_modules
-
-# local config files
-api/src/config/locale.js
-app/src/locale.js
