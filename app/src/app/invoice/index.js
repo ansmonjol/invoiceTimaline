@@ -212,5 +212,4 @@ Invoice.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
 
-
 export default connect(state => ({ invoiceStore: state.invoiceStore }), { ...actions })(Invoice)
