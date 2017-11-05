@@ -1,8 +1,11 @@
 import React from 'react'
+import classNames from 'classnames'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { accounting } from 'accounting'
 
+import Toast from 'shared/ui/toast'
+import Storage from 'shared/storage'
 import Breadcrumb from 'shared/ui/breadcrumb'
 import {
   DATE_FORMAT_DATE_HOUR,
@@ -15,6 +18,7 @@ import * as actions from './../actions'
 class OneInvoice extends React.Component {
   static propTypes = {
     oneInvoice: React.PropTypes.func,
+    updateInvoice: React.PropTypes.func,
     invoiceStore: React.PropTypes.object,
     location: React.PropTypes.object,
     params: React.PropTypes.object,
@@ -29,11 +33,43 @@ class OneInvoice extends React.Component {
     this._fetchData()
   }
 
+  componentDidUpdate() {
+    this._checkStorageToast()
+  }
+
+
   _fetchData = () => {
     const invoiceId = this.props.params.id
 
     // Get invoice
     if (!!invoiceId) this.props.oneInvoice(invoiceId)
+  }
+
+  _checkStorageToast = () => {
+    const success = Storage.get('success');
+    if (!!success) {
+      this.refs.toastContainer.refs.toast.success(success);
+      Storage.remove('success');
+    }
+  }
+
+  _turnInvoiceToPaid = () => {
+    const newInvoice = { ...this.props.invoiceStore.oneInvoice }
+
+    // Change datas
+    newInvoice.status = 101;
+    newInvoice.paymentDate = new Date();
+
+    // Create timeline event
+    const timeline = {
+      title: 'Invoice marked as paid',
+      type: 104,
+      invoiceId: newInvoice.id,
+      accountId: Storage.get('accountId'),
+      userId: Storage.get('userId'),
+    }
+
+    this.props.updateInvoice(newInvoice, timeline);
   }
 
   _renderFormatedStatus = (invoice) => {
@@ -53,11 +89,23 @@ class OneInvoice extends React.Component {
     }
   }
 
+  _renderRows = () => {
+    if (!this.props.invoiceStore.oneInvoice.timeline.length) return 'No event to display'
+    return this.props.invoiceStore.oneInvoice.timeline.map((timeline, index) => (
+      <div key={index} className="panel panel-default">
+        <div className="panel-body">
+          {timeline.title}
+        </div>
+      </div>
+    ))
+  }
+
   render() {
     const { invoiceStore } = this.props;
 
     return (
       <div>
+        <Toast ref="toastContainer" />
         <h1>Edit Invoice #{invoiceStore.oneInvoice.ref}</h1>
         {!!invoiceStore.loading && <p className="absolute-loading">Loading...</p>}
 
@@ -72,7 +120,17 @@ class OneInvoice extends React.Component {
 
           <div className="panel panel-default mrg-top40">
             <div className="panel-heading">
-              <h3 className="panel-title">Details</h3>
+              <h3 className={classNames('panel-title', { 'pannel-button-title': invoiceStore.oneInvoice.status !== 101 })}>Details</h3>
+              {invoiceStore.oneInvoice.status !== 101 &&
+                <button
+                  type="button"
+                  className="btn btn-success floatRight"
+                  onClick={this._turnInvoiceToPaid}
+                >
+                  Mark as paid
+                </button>
+              }
+              <div className="clear"></div>
             </div>
             <div className="panel-body">
               <div className="col-md-12 nopd">
@@ -117,10 +175,10 @@ class OneInvoice extends React.Component {
 
           <div className="panel panel-default">
             <div className="panel-heading">
-              <h3 className="panel-title">Timeine</h3>
+              <h3 className="panel-title">Timeline</h3>
             </div>
             <div className="panel-body">
-              Panel content
+              {this._renderRows()}
             </div>
           </div>
 
