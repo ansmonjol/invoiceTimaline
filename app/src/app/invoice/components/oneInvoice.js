@@ -139,7 +139,7 @@ class OneInvoice extends React.Component {
           <div className="mrg-top20 mrg-bot20">
             <h3>Add comment</h3>
             <div className="form-group mrg-top30">
-              <textarea value={this.state.comment} onChange={(e) => this.setState({ comment: e.target.value })} className="form-control" rows="5"></textarea>
+              <textarea autoFocus value={this.state.comment} onChange={(e) => this.setState({ comment: e.target.value })} className="form-control" rows="5"></textarea>
             </div>
           </div>
         </Modal.Body>
