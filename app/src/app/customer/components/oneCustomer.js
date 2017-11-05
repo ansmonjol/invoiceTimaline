@@ -1,14 +1,7 @@
 import React from 'react'
-import moment from 'moment'
 import { connect } from 'react-redux'
-import { accounting } from 'accounting'
 
 import Breadcrumb from 'shared/ui/breadcrumb'
-import {
-  DATE_FORMAT_DATE_HOUR,
-  ACCOUNTING_FORMAT_MONEY,
-} from 'src/parameters'
-
 
 import * as actions from './../actions'
 
@@ -43,7 +36,6 @@ class OneCustomer extends React.Component {
 
   render() {
     const { customerStore } = this.props;
-    console.log('customerStore', customerStore.oneCustomer);
 
     return (
       <div>
