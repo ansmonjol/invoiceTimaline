@@ -27,8 +27,8 @@ export function login({ email, password }) {
       Storage.set('accountId', res.login.account.id);
       Storage.set('userId', res.login.user.id);
 
-      // Navigate (should be done in a redux observable)
-      browserHistory.push('/');
+      // Reload page to fetch data and redirect to home
+      window.location.reload();
 
       // Dispacth results
       dispatch({ type: ACTION_TYPES.AUTH_LOGIN_SUCCESS, payload: { ...res } });

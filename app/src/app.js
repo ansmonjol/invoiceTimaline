@@ -28,6 +28,8 @@ class App extends React.Component {
     super(props, context);
     this.state = {
       confirmModal: false,
+      userId: Storage.get('userId'),
+      accountId: Storage.get('accountId'),
     }
   }
 
@@ -36,12 +38,11 @@ class App extends React.Component {
   }
 
   _fetchData = () => {
-    // Get storage datas
-    const accountId = Storage.get('accountId');
-    const userId = Storage.get('userId');
+    const { userId, accountId } = this.state;
 
     // If no data in storage
     if (!!accountId && !!userId) {
+      browserHistory.push('/');
       this.props.loadDatas({ accountId, userId });
     } else if (this.props.location !== '/login') {
       // Redirect to login page
@@ -51,7 +52,7 @@ class App extends React.Component {
 
 
   render() {
-    const { confirmModal } = this.state;
+    const { confirmModal, userId, accountId } = this.state;
 
     return (
       <div>
@@ -59,7 +60,7 @@ class App extends React.Component {
           <ConfirmModal title="Log out" onClose={() => this.setState({ confirmModal: false })} onOk={() => Logout.logout()} />
         }
 
-        <Navbar>
+        {!!userId && !!accountId && <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
               <a onClick={() => browserHistory.push('/')}>Invoice Timeline</a>
@@ -76,7 +77,7 @@ class App extends React.Component {
               <MenuItem eventKey={3.1} onClick={() => this.setState({ confirmModal: true })}>Log out</MenuItem>
             </NavDropdown>
           </Nav>
-        </Navbar>
+        </Navbar>}
 
         <div className="app-wrapper">
           {this.props.children}
