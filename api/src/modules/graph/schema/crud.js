@@ -7,8 +7,6 @@ const models = require('./../models');
 const attributes = require('./../helpers/attributes');
 const GraphQLJSON = require('graphql-type-json');
 const emitter = require('./../../base/emitter');
-// const safe = require('./../../account/helpers/safe');
-// const safeFree = require('./../../account/helpers/safeFree');
 
 const getQueries = function getQueries(params) {
   let queries = {};
@@ -59,7 +57,6 @@ Object.keys(models).forEach((modelName) => {
         type: GraphQLJSON,
         args,
         resolve: async (parent, values, { ctx, accountId, account, language }) => {
-          // await safe({ ctx, accountId, account, language });
           if (modelName === 'Project' || modelName === 'Customer' || modelName === 'User') {
             // await safeFree(accountId, modelName);
           }
@@ -74,7 +71,6 @@ Object.keys(models).forEach((modelName) => {
         type: GraphQLJSON,
         args: { values: { type: GraphQLJSON } },
         resolve: async (parent, { values }, { ctx, accountId, account, language }) => {
-          // await safe({ ctx, accountId, account, language });
           if (modelName === 'Project' || modelName === 'Customer' || modelName === 'User') {
             // await safeFree(accountId, modelName);
           }
@@ -90,7 +86,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const oldState = await Model.findById(values.id);
         await oldState.updateAttributes(values);
         const newState = await Model.findById(values.id);
@@ -104,7 +99,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         let record = await Model.findById(values.id);
         await record.updateAttributes({ status: 99 });
         record = await Model.findById(values.id);
@@ -119,7 +113,6 @@ Object.keys(models).forEach((modelName) => {
         type: GraphQLInt,
         args,
         resolve: async (parent, values, { ctx, accountId, account, language }) => {
-          // await safe({ ctx, accountId, account, language });
           const record = await Model.findById(values.id);
           await record.destroy();
           emitter.emit(`destroy${modelName}`, { values, record, language });
@@ -134,7 +127,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
 
         // Manage custom incude
@@ -143,7 +135,6 @@ Object.keys(models).forEach((modelName) => {
         } else {
           queries.include = Model.include || [];
         }
-
 
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const record = await Model.find(queries);
@@ -157,7 +148,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLJSON,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
 
         // Manage custom incude
@@ -195,7 +185,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLInt,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
 
         // Check for custom where query
@@ -219,7 +208,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLFloat,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const value = await Model.sum(queries.field, queries);
@@ -233,7 +221,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLFloat,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const value = await Model.min(queries.field, queries);
@@ -247,7 +234,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLFloat,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const value = await Model.max(queries.field, queries);
@@ -261,7 +247,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLFloat,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const value = await Model.aggregate(queries.field, 'avg', queries);
@@ -275,7 +260,6 @@ Object.keys(models).forEach((modelName) => {
       type: GraphQLFloat,
       args,
       resolve: async (parent, values, { ctx, accountId, account, language }) => {
-        // await safe({ ctx, accountId, account, language });
         const queries = getQueries(values);
         queries.where = pushAccountIdQueries(queries.where || {}, modelName, { accountId });
         const value = await Model.aggregate(queries.field, queries.function, queries);
