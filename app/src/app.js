@@ -38,11 +38,12 @@ class App extends React.Component {
   }
 
   _fetchData = () => {
-    const { userId, accountId } = this.state;
+    const userId = Storage.get('userId');
+    const accountId = Storage.get('accountId');
+
 
     // If no data in storage
     if (!!accountId && !!userId) {
-      browserHistory.push('/');
       this.props.loadDatas({ accountId, userId });
     } else if (this.props.location !== '/login') {
       // Redirect to login page
@@ -52,7 +53,9 @@ class App extends React.Component {
 
 
   render() {
-    const { confirmModal, userId, accountId } = this.state;
+    const { confirmModal } = this.state;
+    const userId = Storage.get('userId');
+    const accountId = Storage.get('accountId');
 
     return (
       <div>

@@ -28,7 +28,7 @@ export function login({ email, password }) {
       Storage.set('userId', res.login.user.id);
 
       // Reload page to fetch data and redirect to home
-      window.location.reload();
+      browserHistory.push('/');
 
       // Dispacth results
       dispatch({ type: ACTION_TYPES.AUTH_LOGIN_SUCCESS, payload: { ...res } });
