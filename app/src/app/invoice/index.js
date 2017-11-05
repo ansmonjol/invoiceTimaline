@@ -37,9 +37,11 @@ class Invoice extends React.Component {
   }
 
   componentDidMount() {
+    // Get datas
     this._fetchData()
   }
 
+  // Get page datas
   _fetchData = () => {
     const { location } = this.props;
 
@@ -59,13 +61,16 @@ class Invoice extends React.Component {
         ]
       }
     }
-    // Get invoice type
+
+    // Get invoices depending on query
     this.props.listInvoice(query)
   }
 
+  // Set url attributes
   setQuery = (...args) => {
     const { router } = this.context
     const { pathname, query } = this.props.location
+
     args.forEach((arg) => {
       query[arg[0]] = arg[1]
     })
@@ -76,12 +81,15 @@ class Invoice extends React.Component {
         search += `&${propertyName}=${query[propertyName]}`
       }
     }
+
+    // Update router
     router.push({
       pathname,
       search
     })
   }
 
+  // Get query type depending on selected tab
   _getQueryType(tab) {
     switch (tab) {
       case 'all':
@@ -97,24 +105,35 @@ class Invoice extends React.Component {
     }
   }
 
-
+  // On tab select
   onTab(tab) {
-    // const status = this._getQueryType(tab)
+    // Set new url
     this.setQuery(['type', tab]);
+
+    // Get datas
     this._fetchData();
+
+    // Set active tab
     this.setState({ tabActived: tab });
   }
 
   _handlePagination = (page) => {
+    // Set new url
     this.setQuery(['page', page]);
+
+    // Get datas
     this._fetchData();
   }
 
   handleSearch = (e) => {
+    // Set new url
     this.setQuery(['search', e.target.value]);
+
+    // Get datas
     this._fetchData();
   }
 
+  // Render status label depending on invoice status
   _renderFormatedStatus = (invoice) => {
     switch (invoice.status) {
       case 99:
@@ -132,10 +151,9 @@ class Invoice extends React.Component {
     }
   }
 
-  _renderRows = () => {
-    const { listInvoice } = this.props.invoiceStore;
-
-    return listInvoice.map((invoice, index) => (
+  // Render invoices rows
+  _renderInvoicesRows = () => (
+    this.props.invoiceStore.listInvoice.map((invoice, index) => (
       <tr key={index}>
         <td className="pointer" onClick={() => browserHistory.push(`/invoices/${invoice.id}`)}><a>Invoice #{invoice.ref}</a></td>
         <td>{accounting.formatMoney(invoice.amount, ACCOUNTING_FORMAT_MONEY)}</td>
@@ -144,8 +162,7 @@ class Invoice extends React.Component {
         <td>{invoice.customer.name}</td>
         <td>{moment(invoice.createdAt).format(DATE_FORMAT)}</td>
       </tr>
-    ))
-  }
+    )))
 
   render() {
     const { invoiceStore, location } = this.props;
@@ -171,7 +188,7 @@ class Invoice extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this._renderRows()}
+              {this._renderInvoicesRows()}
             </tbody>
           </Table>
           <div>{invoiceStore.countInvoice} invoice{invoiceStore.countInvoice > 1 && 's'}</div>

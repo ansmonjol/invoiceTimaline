@@ -30,29 +30,40 @@ class OneInvoice extends React.Component {
   }
 
   componentDidMount() {
+    // Get datas
     this._fetchData()
   }
 
   componentDidUpdate() {
+    // Check item in storage for toast display
     this._checkStorageToast()
   }
 
 
+  // Get page datas
   _fetchData = () => {
+    // Get invoice id
     const invoiceId = this.props.params.id
 
-    // Get invoice
+    // Get one invoice
     if (!!invoiceId) this.props.oneInvoice(invoiceId)
   }
 
+  // Check success presence in storage for toast display
   _checkStorageToast = () => {
+    // Get storage data
     const success = Storage.get('success');
+
     if (!!success) {
+      // Show toast
       this.refs.toastContainer.refs.toast.success(success);
+
+      // Clean storage
       Storage.remove('success');
     }
   }
 
+  // Change invoice status to in dispute
   _turnInvoiceToDispute = () => {
     const newInvoice = { ...this.props.invoiceStore.oneInvoice }
 
@@ -71,6 +82,7 @@ class OneInvoice extends React.Component {
     this.props.updateInvoice(newInvoice, timeline);
   }
 
+  // Change invoice status to paid
   _turnInvoiceToPaid = () => {
     const newInvoice = { ...this.props.invoiceStore.oneInvoice }
 
@@ -92,6 +104,7 @@ class OneInvoice extends React.Component {
     this.props.updateInvoice(newInvoice, timeline);
   }
 
+  // Render status label depending on invoice status
   _renderFormatedStatus = (invoice) => {
     switch (invoice.status) {
       case 99:
@@ -109,12 +122,16 @@ class OneInvoice extends React.Component {
     }
   }
 
-  _renderRows = () => {
+  // Render timeline content
+  _renderTimelineRows = () => {
+    // If empty timeline array
     if (!this.props.invoiceStore.oneInvoice.timeline.length) return 'No event to display'
-    return this.props.invoiceStore.oneInvoice.timeline.map((timeline, index) => (
+
+    // Render rows
+    return this.props.invoiceStore.oneInvoice.timeline.map((row, index) => (
       <div key={index} className="panel panel-default">
         <div className="panel-body">
-          {timeline.title}
+          {row.title}
         </div>
       </div>
     ))
@@ -212,7 +229,7 @@ class OneInvoice extends React.Component {
               <h3 className="panel-title">Timeline</h3>
             </div>
             <div className="panel-body">
-              {this._renderRows()}
+              {this._renderTimelineRows()}
             </div>
           </div>
 
