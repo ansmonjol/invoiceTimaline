@@ -8,5 +8,3 @@ import './assets/less/toastr.less'
 import './assets/less/rules.less'
 import './assets/less/nav.less'
 import './assets/less/theme.less'
-
-import './assets/less/responsive.less'
