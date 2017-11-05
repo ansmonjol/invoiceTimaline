@@ -68,7 +68,7 @@ class App extends React.Component {
         {!!userId && !!accountId && <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
-              <a onClick={() => browserHistory.push('/')}>Invoice Timeline</a>
+              <a className="pointer" onClick={() => browserHistory.push('/')}>Invoice Timeline</a>
             </Navbar.Brand>
           </Navbar.Header>
           <Nav>
