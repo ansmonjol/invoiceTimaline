@@ -167,8 +167,12 @@ class OneInvoice extends React.Component {
 
               <div className="col-md-12 nopd mrg-top10">
                 <div className="col-md-2 clr-gray nopd">Payment date</div>
-                {invoiceStore.oneInvoice.paymentDate}
                 <div className="col-md-10">{!!invoiceStore.oneInvoice.paymentDate ? moment(invoiceStore.oneInvoice.paymentDate).format(DATE_FORMAT_DATE_HOUR) : '-'}</div>
+              </div>
+
+              <div className="col-md-12 nopd mrg-top10">
+                <div className="col-md-2 clr-gray nopd">Payment method</div>
+                <div className="col-md-10">{!!invoiceStore.oneInvoice.paymentMethod ? invoiceStore.oneInvoice.paymentMethod : '-'}</div>
               </div>
             </div>
           </div>

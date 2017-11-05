@@ -28,6 +28,7 @@ module.exports = async function customerSeed(models, accounts) {
         amount: Number(faker.finance.amount()),
         status: 101,
         paymentDate: faker.date.past(),
+        paymentMethod: 'WireTransfer',
         accountId: account.id,
         customerId: (faker.random.arrayElement(customers)).id,
       }
