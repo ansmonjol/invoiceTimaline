@@ -75,7 +75,7 @@ export function updateInvoice(invoice, timeline) {
       if (!res) return dispatch({ type: ACTION_TYPES.INVOICE_UPDATE_INVOICE_FAILURE });
 
       // Should be done in a redux observable
-      Storage.set('success', 'Payment saved')
+      Storage.set('success', 'Invoice saved')
 
       // Dispacth results
       dispatch({ type: ACTION_TYPES.INVOICE_UPDATE_INVOICE_SUCCESS, payload: { ...res } });

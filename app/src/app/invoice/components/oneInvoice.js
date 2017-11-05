@@ -53,6 +53,24 @@ class OneInvoice extends React.Component {
     }
   }
 
+  _turnInvoiceToDispute = () => {
+    const newInvoice = { ...this.props.invoiceStore.oneInvoice }
+
+    // Change datas
+    newInvoice.status = 103;
+
+    // Create timeline event
+    const timeline = {
+      title: 'Invoice marked as in dispute',
+      type: 104,
+      invoiceId: newInvoice.id,
+      accountId: Storage.get('accountId'),
+      userId: Storage.get('userId'),
+    }
+
+    this.props.updateInvoice(newInvoice, timeline);
+  }
+
   _turnInvoiceToPaid = () => {
     const newInvoice = { ...this.props.invoiceStore.oneInvoice }
 
@@ -122,14 +140,14 @@ class OneInvoice extends React.Component {
 
           <div className="panel panel-default mrg-top40">
             <div className="panel-heading">
-              <h3 className={classNames('panel-title', { 'pannel-button-title': invoiceStore.oneInvoice.status !== 101 })}>Details</h3>
-              {invoiceStore.oneInvoice.status !== 101 &&
+              <h3 className={classNames('panel-title', { 'pannel-button-title': invoiceStore.oneInvoice.status !== 103 })}>Details</h3>
+              {invoiceStore.oneInvoice.status !== 103 &&
                 <button
                   type="button"
-                  className="btn btn-success floatRight"
-                  onClick={this._turnInvoiceToPaid}
+                  className="btn btn-danger floatRight"
+                  onClick={this._turnInvoiceToDispute}
                 >
-                  Mark as paid
+                  Dispute
                 </button>
               }
               <div className="clear"></div>

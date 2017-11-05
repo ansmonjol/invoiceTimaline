@@ -41,7 +41,10 @@ export default function invoiceStore(state = initialState, action) {
 
     case ACTION_TYPE.INVOICE_ONE_INVOICE_SUCCESS:
       newState.loading = false;
-      newState.oneInvoice = action.payload.oneInvoice;
+      // Reverse timeline array (should find a solution with the crud include method to sort included models)
+      const newInvoice = action.payload.oneInvoice;
+      newInvoice.timeline.reverse()
+      newState.oneInvoice = newInvoice;
       break;
 
 
