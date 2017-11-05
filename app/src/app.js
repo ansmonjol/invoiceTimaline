@@ -9,6 +9,9 @@ import {
   MenuItem
 } from 'react-bootstrap'
 
+import ConfirmModal from 'shared/ui/confirm'
+import Logout from 'shared/util/logout'
+
 export default class App extends React.Component {
 
   static propTypes = {
@@ -17,12 +20,17 @@ export default class App extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {}
+    this.state = {
+      confirmModal: false,
+    }
   }
 
   render() {
+    const { confirmModal } = this.state;
+
     return (
       <div>
+        {!!confirmModal && <ConfirmModal title="Log out" onClose={() => this.setState({ confirmModal: false })} onOk={() => Logout.logout()} />}
         <Navbar>
           <Navbar.Header>
             <Navbar.Brand>
@@ -37,7 +45,7 @@ export default class App extends React.Component {
           </Nav>
           <Nav className="floatRight">
             <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Log out</MenuItem>
+              <MenuItem eventKey={3.1} onClick={() => this.setState({ confirmModal: true })}>Log out</MenuItem>
             </NavDropdown>
           </Nav>
         </Navbar>

@@ -1,4 +1,4 @@
-export class Logout {
+export default class Logout {
 
   static logout() {
     localStorage.clear();

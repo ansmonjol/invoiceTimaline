@@ -20,7 +20,7 @@ const Tab = ({ items, active, onSearch }) => {
         <input
           type="text"
           className="floatRight search-input"
-          placeholder="Search"
+          placeholder="Search #ref"
           onChange={onSearch}
         />
       }
