@@ -58,7 +58,9 @@ class OneInvoice extends React.Component {
 
     // Change datas
     newInvoice.status = 101;
-    newInvoice.paymentDate = new Date();
+    newInvoice.paymentDate = new Date().toISOString();
+    const methods = ['WireTransfer', 'TransferWise', 'WesternUnion'];
+    newInvoice.paymentMethod = methods[Math.floor(Math.random() * methods.length)];
 
     // Create timeline event
     const timeline = {
@@ -157,7 +159,17 @@ class OneInvoice extends React.Component {
 
           <div className="panel panel-default">
             <div className="panel-heading">
-              <h3 className="panel-title">Status</h3>
+              <h3 className={classNames('panel-title', { 'pannel-button-title': invoiceStore.oneInvoice.status !== 101 })}>StatusDetails</h3>
+              {invoiceStore.oneInvoice.status !== 101 &&
+                <button
+                  type="button"
+                  className="btn btn-success floatRight"
+                  onClick={this._turnInvoiceToPaid}
+                >
+                  Mark as paid
+                </button>
+              }
+              <div className="clear"></div>
             </div>
             <div className="panel-body">
               <div className="col-md-12 nopd">
