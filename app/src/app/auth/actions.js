@@ -27,8 +27,9 @@ export function login({ email, password }) {
       Storage.set('accountId', res.login.account.id);
       Storage.set('userId', res.login.user.id);
 
-      // Reload page to fetch data and redirect to home
+      // Reload page to fetch data and redirect to home (so ugly, find a way to prevent page reload)
       browserHistory.push('/');
+      window.location.reload()
 
       // Dispacth results
       dispatch({ type: ACTION_TYPES.AUTH_LOGIN_SUCCESS, payload: { ...res } });
