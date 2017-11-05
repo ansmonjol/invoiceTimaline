@@ -12,6 +12,8 @@ module.exports = function Timeline(sequelize, DataTypes) {
 
     title: { type: DataTypes.STRING },
 
+    content: { type: DataTypes.TEXT },
+
     // 100: Life event
     // 101: Date
     // 102: Reminder

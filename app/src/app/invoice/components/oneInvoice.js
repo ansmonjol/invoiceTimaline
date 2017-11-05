@@ -1,6 +1,7 @@
 import React from 'react'
-import classNames from 'classnames'
 import moment from 'moment'
+import { Modal } from 'react-bootstrap';
+import classNames from 'classnames'
 import { connect } from 'react-redux'
 import { accounting } from 'accounting'
 
@@ -19,6 +20,7 @@ class OneInvoice extends React.Component {
   static propTypes = {
     oneInvoice: React.PropTypes.func,
     updateInvoice: React.PropTypes.func,
+    createTimeline: React.PropTypes.func,
     invoiceStore: React.PropTypes.object,
     location: React.PropTypes.object,
     params: React.PropTypes.object,
@@ -26,7 +28,10 @@ class OneInvoice extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    this.state = {}
+    this.state = {
+      showCommentModal: false,
+      comment: '',
+    }
   }
 
   componentDidMount() {
@@ -101,7 +106,63 @@ class OneInvoice extends React.Component {
       userId: Storage.get('userId'),
     }
 
+    // Update invoice & create timeline event
     this.props.updateInvoice(newInvoice, timeline);
+  }
+
+  // Save comment
+  _handleSaveComment = () => {
+    if (!!this.state.comment) {
+      // Build new timeline object
+      const timeline = {
+        title: 'Comment added',
+        content: this.state.comment,
+        type: 103,
+        invoiceId: this.props.params.id,
+        accountId: Storage.get('accountId'),
+        userId: Storage.get('userId'),
+      }
+
+      // Create timeline
+      this.props.createTimeline(timeline);
+    }
+
+    // Close comment modal
+    this.setState({ showCommentModal: false })
+  }
+
+  // Render add comment modal
+  _renderCommentModal = () => {
+    return (
+      <Modal bsSize="lg" show onHide={() => this.setState({ showCommentModal: false })} className="contained-modal-send-sm">
+        <Modal.Body>
+          <div className="mrg-top20 mrg-bot20">
+            <h3>Add comment</h3>
+            <div className="form-group mrg-top30">
+              <textarea value={this.state.comment} onChange={(e) => this.setState({ comment: e.target.value })} className="form-control" rows="5"></textarea>
+            </div>
+          </div>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <button
+            type="button"
+            className="btn btn-default"
+            onClick={() => this.setState({ showCommentModal: false, comment: '' })}
+          >
+            Cancel
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={this._handleSaveComment}
+          >
+            Add
+          </button>
+        </Modal.Footer>
+      </Modal>
+    )
   }
 
   // Render status label depending on invoice status
@@ -131,18 +192,23 @@ class OneInvoice extends React.Component {
     return this.props.invoiceStore.oneInvoice.timeline.map((row, index) => (
       <div key={index} className="panel panel-default">
         <div className="panel-body">
-          {row.title}
+          <div className="strong">{row.title}</div>
+          <div>{moment(row.createdAt).format(DATE_FORMAT_DATE_HOUR)}</div>
+          {row.type === 103 && <p className="mrg-top20">{row.content.split('\n').map((c, i) => <div key={i}>{c}</div>)}</p>}
         </div>
       </div>
     ))
   }
 
   render() {
+    const { showCommentModal } = this.state;
     const { invoiceStore } = this.props;
 
     return (
       <div>
         <Toast ref="toastContainer" />
+        {!!showCommentModal && this._renderCommentModal()}
+
         <h1>Edit Invoice #{invoiceStore.oneInvoice.ref}</h1>
         {!!invoiceStore.loading && <p className="absolute-loading">Loading...</p>}
 
@@ -155,7 +221,12 @@ class OneInvoice extends React.Component {
             ]}
           />
 
-          <div className="panel panel-default mrg-top40">
+          <div className="mrg-top10">
+            <button type="button" className="btn btn-info floatRight" onClick={() => this.setState({ showCommentModal: true })}>+ Add a comment</button>
+            <div className="clear"></div>
+          </div>
+
+          <div className="panel panel-default mrg-top30">
             <div className="panel-heading">
               <h3 className={classNames('panel-title', { 'pannel-button-title': invoiceStore.oneInvoice.status !== 103 })}>Details</h3>
               {invoiceStore.oneInvoice.status !== 103 &&

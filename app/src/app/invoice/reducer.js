@@ -62,6 +62,20 @@ export default function invoiceStore(state = initialState, action) {
       newState.oneInvoice.timeline.unshift({ ...action.payload.addTimeline })
       break;
 
+
+    case ACTION_TYPE.INVOICE_CREATE_TIMELINE:
+      newState.loading = true;
+      break;
+
+    case ACTION_TYPE.INVOICE_CREATE_TIMELINE_FAILURE:
+      newState.loading = false;
+      break;
+
+    case ACTION_TYPE.INVOICE_CREATE_TIMELINE_SUCCESS:
+      newState.loading = false;
+      newState.oneInvoice.timeline.unshift({ ...action.payload.addTimeline })
+      break;
+
     default:
       break;
   }

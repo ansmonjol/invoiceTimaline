@@ -55,3 +55,17 @@ export function updateInvoiceQL(invoice, timeline) {
     ${addTimeline.toString()}
   }`);
 }
+
+/**
+ * Create timeline
+ * @param  {Object} timeline New timeline object
+ * @return {Graph}           Graph call
+ */
+export function createTimelineQL(timeline) {
+  const addTimeline = new Query('addTimeline', { ...timeline })
+
+  // Call graph
+  return graph(`{
+    ${addTimeline.toString()}
+  }`);
+}
