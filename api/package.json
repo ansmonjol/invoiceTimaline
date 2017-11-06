@@ -76,6 +76,7 @@
     "gulp-notify": "^2.2.0",
     "minami": "^1.1.1",
     "mocha-generators": "^1.2.0",
+    "nodemon": "^1.12.1",
     "pdfkit": "^0.8.0",
     "supertest": "^2.0.0",
     "supertest-as-promised": "^4.0.0"
